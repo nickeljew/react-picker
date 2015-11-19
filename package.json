@@ -13,14 +13,14 @@
     "choices"
   ],
   "author": "Nickel Jianhui Zhu <nickeljew@hotmail.com>",
-  "version": "0.8.2",
+  "version": "0.8.4",
   "license": "MIT",
   "private": false,
   "main": "lib/picker.js",
   "scripts": {
     "prebuild": "rm -rf lib",
-    "build": "grunt build",
-    "prepublish": "npm run build"
+    "_build": "grunt build",
+    "_prepublish": "npm run build"
   },
   "dependencies": {},
   "peerDependencies": {
