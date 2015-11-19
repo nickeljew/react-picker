@@ -20,7 +20,7 @@ DocReady(function() {
         }
         , componentWillReceiveProps(nextProps){
             this.setState({
-                value: nextProps.value
+                value: nextProps.value || 'N/A'
             })
         }
 

@@ -80,7 +80,7 @@
 	        },
 	        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	            this.setState({
-	                value: nextProps.value
+	                value: nextProps.value || 'N/A'
 	            });
 	        },
 
@@ -542,6 +542,16 @@
 	        };
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        var _this = this;
+
+	        if (Array.isArray(nextProps.value)) {
+	            nextProps.value.forEach(function (v, idx) {
+	                if (_this.state.options[idx] && _this.state.options[idx] !== nextProps.options[idx]) {
+	                    var node = _react2['default'].findDOMNode(_this.refs['list-' + idx]);
+	                    node.scrollTop = _this._scrollStartTop[idx] = 0;
+	                }
+	            });
+	        }
 	        this.setState({
 	            value: nextProps.value,
 	            options: nextProps.options
@@ -550,7 +560,7 @@
 
 	    optionHeight: 0,
 	    componentDidMount: function componentDidMount() {
-	        var _this = this;
+	        var _this2 = this;
 
 	        var op = this.refs['op-0-0'];
 	        if (op) {
@@ -558,8 +568,8 @@
 	        }
 	        this._initValueIndexes.forEach(function (vi, idx) {
 	            if (vi > 0) {
-	                var node = _react2['default'].findDOMNode(_this.refs['list-' + idx]);
-	                node.scrollTop = _this._scrollStartTop = vi * _this.optionHeight;
+	                var node = _react2['default'].findDOMNode(_this2.refs['list-' + idx]);
+	                node.scrollTop = _this2._scrollStartTop[idx] = vi * _this2.optionHeight;
 	            }
 	        });
 	    },
@@ -570,7 +580,7 @@
 	    },
 
 	    render: function render() {
-	        var _this2 = this;
+	        var _this3 = this;
 
 	        var values = this.state.value,
 	            __options = this.state.options;
@@ -596,7 +606,7 @@
 	                    'data-id': i,
 	                    className: 'list-wrap',
 	                    style: style,
-	                    onScroll: _this2._onScroll
+	                    onScroll: _this3._onScroll
 	                },
 	                _react2['default'].createElement(
 	                    'ul',
@@ -620,7 +630,7 @@
 	                                ref: 'op-' + i + '-' + j,
 	                                'data-id': i + '-' + j,
 	                                'data-value': JSON.stringify(op),
-	                                onClick: _this2._clickOnOption
+	                                onClick: _this3._clickOnOption
 	                            },
 	                            op.text
 	                        );
@@ -688,10 +698,10 @@
 
 	    _onPageScroll: function _onPageScroll(e) {},
 
-	    _scrollStartTop: 0,
+	    _scrollStartTop: [],
 	    _scrollTimer: undefined,
 	    _onScroll: function _onScroll(e) {
-	        var _this3 = this;
+	        var _this4 = this;
 
 	        var el = e.target,
 	            idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10),
@@ -699,7 +709,8 @@
 
 	        window.clearTimeout(this._scrollTimer);
 	        this._scrollTimer = window.setTimeout(function () {
-	            if (_this3._scrollStartTop === el.scrollTop) return;
+	            if (typeof _this4._scrollStartTop[idx] !== 'number') _this4._scrollStartTop[idx] = 0;
+	            if (_this4._scrollStartTop[idx] === el.scrollTop) return;
 
 	            var scrollTop = el.scrollTop,
 	                mod = scrollTop % opHeight,
@@ -715,28 +726,28 @@
 	                el.scrollTop -= mod;
 	            };
 
-	            if (scrollTop > _this3._scrollStartTop) {
+	            if (scrollTop > _this4._scrollStartTop[idx]) {
 	                percent > 0.46 ? toLowerItem() : toUpperItem();
 	            } else {
 	                percent < 0.64 ? toUpperItem() : toLowerItem();
 	            }
-	            _this3._scrollStartTop = scrollTop;
+	            _this4._scrollStartTop[idx] = scrollTop;
 
 	            var opname = 'op-' + idx + '-' + scrollTop / opHeight;
-	            var op = _react2['default'].findDOMNode(_this3.refs[opname]).getAttribute('data-value');
+	            var op = _react2['default'].findDOMNode(_this4.refs[opname]).getAttribute('data-value');
 	            if (!op) return;
 	            op = JSON.parse(op);
 
-	            var value = _this3.state.value;
+	            var value = _this4.state.value;
 	            if (Array.isArray(value)) {
 	                value[idx] = op.value;
 	            } else {
 	                value = op.value;
 	            }
-	            _this3.setState({
+	            _this4.setState({
 	                value: value
 	            });
-	            _this3.props.onChange(op.value, op.text, idx);
+	            _this4.props.onChange(op.value, op.text, idx);
 	        }, 250);
 	    },
 

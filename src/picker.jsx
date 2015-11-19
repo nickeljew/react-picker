@@ -26,6 +26,14 @@ let Picker = React.createClass({
         }
     }
     , componentWillReceiveProps(nextProps){
+        if ( Array.isArray(nextProps.value) ) {
+            nextProps.value.forEach((v, idx) => {
+                if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
+                    let node = React.findDOMNode( this.refs['list-'+idx] )
+                    node.scrollTop = this._scrollStartTop[idx] = 0
+                }
+            })
+        }
         this.setState({
             value: nextProps.value
             , options: nextProps.options
@@ -41,7 +49,7 @@ let Picker = React.createClass({
         this._initValueIndexes.forEach((vi, idx) => {
             if (vi > 0) {
                 let node = React.findDOMNode( this.refs['list-'+idx] )
-                node.scrollTop = this._scrollStartTop = vi * this.optionHeight
+                node.scrollTop = this._scrollStartTop[idx] = vi * this.optionHeight
             }
         })
         //window.addEventListener('scroll', this._onPageScroll)
@@ -169,7 +177,7 @@ let Picker = React.createClass({
     , _onPageScroll(e) {
     }
 
-    , _scrollStartTop: 0
+    , _scrollStartTop: []
     , _scrollTimer: undefined
     , _onScroll(e) {
         let el = e.target
@@ -178,7 +186,9 @@ let Picker = React.createClass({
 
         window.clearTimeout( this._scrollTimer )
         this._scrollTimer = window.setTimeout( () => {
-            if (this._scrollStartTop === el.scrollTop)
+            if (typeof this._scrollStartTop[idx] !== 'number')
+                this._scrollStartTop[idx] = 0
+            if (this._scrollStartTop[idx] === el.scrollTop)
                 return
 
             let scrollTop = el.scrollTop
@@ -195,13 +205,13 @@ let Picker = React.createClass({
                 el.scrollTop -= mod
             }
 
-            if (scrollTop > this._scrollStartTop) {
+            if (scrollTop > this._scrollStartTop[idx]) {
                 percent > 0.46 ? toLowerItem() : toUpperItem()
             }
             else {
                 percent < 0.64 ? toUpperItem() : toLowerItem()
             }
-            this._scrollStartTop = scrollTop
+            this._scrollStartTop[idx] = scrollTop
 
             let opname = `op-${idx}-${scrollTop / opHeight}`
             let op = React.findDOMNode( this.refs[opname] ).getAttribute('data-value')
