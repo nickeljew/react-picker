@@ -18,3 +18,5 @@
 *.scssc
 
 node_modules/*
+
+snapshots/*

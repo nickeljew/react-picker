@@ -1,4 +1,5 @@
 import React from 'react'
+import Tappable from './tappable'
 
 
 let Picker = React.createClass({
@@ -108,14 +109,15 @@ let Picker = React.createClass({
                                 }
 
                                 return (
-                                    <li key={j}
-                                        ref={`op-${i}-${j}`}
-                                        data-id={`${i}-${j}`}
-                                        data-value={JSON.stringify(op)}
-                                        onClick={this._clickOnOption}
+                                    <Tappable key={j}
+                                              ref={`op-${i}-${j}`}
+                                              data-id={`${i}-${j}`}
+                                              data-value={JSON.stringify(op)}
+                                              component="li"
+                                              onTap={this._clickOnOption}
                                         >
                                         {op.text}
-                                    </li>
+                                    </Tappable>
                                 )
                             })
                         }
@@ -130,7 +132,7 @@ let Picker = React.createClass({
             <div className={["picker", this.props.className].join(' ')}>
                 {this.props.children}
                 <div className={["container", "table", this.props.className, (this.state.open ? "show" : undefined)].join(' ')}>
-                    <div className="overlay" onClick={this._handleOverlayTouchTap} />
+                    <Tappable  className="overlay" onTap={this._handleOverlayTouchTap} />
                     <div className="cell">
                         <div className={["popup", (this.state.open ? "show" : undefined)].join(' ')}>
                             {lists}

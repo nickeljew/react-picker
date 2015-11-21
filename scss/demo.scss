@@ -171,6 +171,8 @@ $m-click-area-color: #777777;
 
   >ul {
     @media screen and (max-width: 767px) {
+      border-bottom: 1px solid #e8e8e8;
+
       $item-fontsize: $m-click-area-fontsize;
       $item-height: $m-click-area-height;
       $content-hmargin: 1.6rem;

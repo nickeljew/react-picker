@@ -31,7 +31,7 @@ module.exports = function(grunt) {
             }
             , dist: {
                 options: {
-                    style: 'compressed'
+                    style: 'expanded' //'compressed'
                     , sourcemap: 'none'
                     , compass: true
                 }
@@ -39,54 +39,27 @@ module.exports = function(grunt) {
                     {
                         expand: true
                         , cwd: './scss'
-                        , src: [ 'demo.scss' ]
-                        , dest: './examples'
+                        , src: [ 'picker.scss' ]
+                        , dest: './css'
                         , ext: '.css'
-                    }
-                ]
-            }
-        }
-        , uglify: {
-            common: {
-                options: {
-                    banner: '<%= tag.banner %>'
-                    , mangle : {
-                        except : ['require', 'exports', 'module', 'React']
-                    }
-                    //, sourceMap: true
-                }
-                , files: [
-                    {
-                        expand: true
-                        , cwd: './lib'
-                        , src: [ './lib/picker.js' ]
-                        , dest: './lib/'
-                        , ext: '.min.js'
                     }
                 ]
             }
         }
         , babel: {
             options: {
-                comments: false
-                //, modules: 'amd'
-                , moduleIds: true
-                , getModuleId: function(moduleName) {
-                    if (moduleName.match(/\/picker$/)) {
-                        return 'react-picker'
-                    }
-                    else if (moduleName.match(/\/test/i)) {
-                        return 'main'
-                    }
-                    return false
-                }
-                //, sourceMaps: true
-                //, code: false
+                //sourceMap: true
             }
             , dist: {
-                files: {
-                    "./lib/picker.js": "./src/picker.jsx"
-                }
+                files: [
+                    {
+                        expand: true
+                        , cwd: './src'
+                        , src: [ '**/*.jsx', '**/*.js' ]
+                        , dest: './lib'
+                        , ext: '.js'
+                    }
+                ]
             }
         }
         , watch: {
@@ -95,16 +68,9 @@ module.exports = function(grunt) {
                 , tasks: ['sass:dev']
             }
             , react: {
-                files: ['./src/*.jsx', './examples/*.jsx']
+                files: ['./src/*.jsx', './src/*.js', './examples/*.jsx']
                 , tasks: ['webpack:demo']
             }
-            //, jsx: {
-            //    files: ['./src/*.jsx']
-            //    , tasks: ["webpack:demo"]
-            //    , options: {
-            //        spawn: false
-            //    }
-            //}
         }
         , clean: {
             all: ["./examples/demo.js", "./examples/*.css.*"]
@@ -122,8 +88,8 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('default', ['sass:dev', 'webpack:demo', 'babel'])
-    grunt.registerTask('dev', ['sass:dev', 'webpack:demo', 'watch'])
-    grunt.registerTask('build', ['babel'])
+    grunt.registerTask('dev', ['sass:dev', 'webpack:demo', 'babel', 'watch'])
+    grunt.registerTask('build', ['sass:dist', 'babel'])
 
     grunt.registerTask('clean', ['clean:all'])
 

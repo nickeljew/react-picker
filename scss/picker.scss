@@ -62,8 +62,9 @@
     $option-height: 3.4rem;
     $visible-num: 7;
     $options-half-height: ($visible-num - 1) / 2 * $option-height;
-    $mobi-visible-num: 11;
-    $mobi-options-half-height: ($mobi-visible-num - 1) / 2 * $option-height;
+    $mobi-visible-num: 7;
+    $mobi-options-top-height: 2 * $option-height;
+    $mobi-options-bottom-height: ($mobi-visible-num - 3) * $option-height;
 
     .popup {
       position: relative;
@@ -121,8 +122,8 @@
           margin-bottom: $options-half-height;
 
           @media screen and (max-width: 767px) {
-            margin-top: $mobi-options-half-height;
-            margin-bottom: $mobi-options-half-height;
+            margin-top: $mobi-options-top-height;
+            margin-bottom: $mobi-options-bottom-height;
           }
         }
         li {
@@ -130,8 +131,10 @@
           line-height: $option-height;
           font-size: 1.32rem;
 
-          &:hover {
-            background-color: rgba(255, 210, 96, 0.33);
+          @media screen and (min-width: 768px) {
+            &:hover {
+              background-color: rgba(255, 210, 96, 0.33);
+            }
           }
         }
       }
@@ -146,17 +149,21 @@
         z-index: 12;
         pointer-events: none; //IMPORTANT to let all events pass through
 
-        @media screen and (max-width: 767px) {
-          height: $mobi-options-half-height;
-        }
-
         &.upper {
           top: 0;
           border-bottom: 1px solid rgba(85, 85, 85, 0.9);
+
+          @media screen and (max-width: 767px) {
+            height: $mobi-options-top-height;
+          }
         }
         &.lower {
           bottom: 0;
           border-top: 1px solid rgba(85, 85, 85, 0.9);
+
+          @media screen and (max-width: 767px) {
+            height: $mobi-options-bottom-height;
+          }
         }
       }
     }

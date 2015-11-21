@@ -152,6 +152,11 @@ DocReady(function() {
             , brand: React.PropTypes.string
             , serial: React.PropTypes.string
         }
+        , getDefaultProps () {
+            return {
+                brand: Cars[0].value
+            }
+        }
         , getInitialState() {
             return {
                 fruit: this.props.fruit
