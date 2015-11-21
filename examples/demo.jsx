@@ -192,6 +192,7 @@ DocReady(function() {
                                 value={fruit}
                                 options={['Mango', 'Orange', 'Avocado', 'Pineapple', 'Jack Fruit', 'Durian', 'Apricot', 'Carambola', 'Dateplum Persimmon', 'Megranate']}
                                 onChange={this._handleFruitChange}
+                                width="250px"
                                 >
                                 <OptionBox value={fruit} onClick={this._handleClickFruit} />
                             </Picker>
@@ -205,6 +206,7 @@ DocReady(function() {
                                 value={[brand, serial]}
                                 options={[this.state.brands, this.state.series]}
                                 onChange={this._handleCarChange}
+                                width="600px"
                                 >
                                 <OptionBox value={this.getCarText(brand, serial)} onClick={this._handleClickCar} />
                             </Picker>

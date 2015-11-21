@@ -1,5 +1,6 @@
 import React from 'react'
 import Tappable from './tappable'
+import ViewPoint from './viewpoint'
 
 
 let Picker = React.createClass({
@@ -11,6 +12,7 @@ let Picker = React.createClass({
         , onShow: React.PropTypes.func
         , onDismiss: React.PropTypes.func
         , onClickAway: React.PropTypes.func
+        , width: React.PropTypes.string
     }
 
     , getDefaultProps () {
@@ -128,13 +130,18 @@ let Picker = React.createClass({
 
         this._initValueIndexes = initValueIndexes
 
+        let popupStyle = {}
+        if (this.props.width && ViewPoint && ViewPoint.width >= 768) {
+            popupStyle.width = this.props.width
+        }
+
         return (
             <div className={["picker", this.props.className].join(' ')}>
                 {this.props.children}
                 <div className={["container", "table", this.props.className, (this.state.open ? "show" : undefined)].join(' ')}>
                     <Tappable  className="overlay" onTap={this._handleOverlayTouchTap} />
                     <div className="cell">
-                        <div className={["popup", (this.state.open ? "show" : undefined)].join(' ')}>
+                        <div className={["popup", (this.state.open ? "show" : undefined)].join(' ')} style={popupStyle}>
                             {lists}
                             <div className="cover upper"/>
                             <div className="cover lower"/>
