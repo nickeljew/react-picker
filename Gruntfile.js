@@ -36,13 +36,7 @@ module.exports = function(grunt) {
                     , compass: true
                 }
                 , files: [
-                    {
-                        expand: true
-                        , cwd: './scss'
-                        , src: [ 'picker.scss' ]
-                        , dest: './css'
-                        , ext: '.css'
-                    }
+                    { './css/picker.css': './scss/pack-picker.scss' }
                 ]
             }
         }
@@ -73,7 +67,7 @@ module.exports = function(grunt) {
             }
         }
         , clean: {
-            all: ["./examples/demo.js", "./examples/*.css.*"]
+            all: ["./examples/demo.js", "./examples/*.css", "./css/*.*", "./lib/*.*"]
         }
         , webpack: {
             demo: webpack_cfg
@@ -90,8 +84,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['sass:dev', 'webpack:demo', 'babel'])
     grunt.registerTask('dev', ['sass:dev', 'webpack:demo', 'babel', 'watch'])
     grunt.registerTask('build', ['sass:dist', 'babel'])
-
-    grunt.registerTask('clean', ['clean:all'])
 
     grunt.registerTask('wp', ['webpack:demo'])
 

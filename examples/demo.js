@@ -52,15 +52,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _es6Docready = __webpack_require__(2);
+	var _reactDom = __webpack_require__(2);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _es6Docready = __webpack_require__(3);
 
 	var _es6Docready2 = _interopRequireDefault(_es6Docready);
 
-	var _es6Dom = __webpack_require__(3);
+	var _es6Dom = __webpack_require__(4);
 
 	var _es6Dom2 = _interopRequireDefault(_es6Dom);
 
-	var _srcPicker = __webpack_require__(4);
+	var _srcPicker = __webpack_require__(5);
 
 	var _srcPicker2 = _interopRequireDefault(_srcPicker);
 
@@ -357,7 +361,7 @@
 	        }
 	    });
 
-	    _react2['default'].render(_react2['default'].createElement(Main, null), _es6Dom2['default'].nodeById("page-container"));
+	    _reactDom2['default'].render(_react2['default'].createElement(Main, null), _es6Dom2['default'].nodeById("page-container"));
 	});
 
 /***/ },
@@ -368,6 +372,12 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	module.exports = ReactDOM;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -403,7 +413,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -508,7 +518,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -523,13 +533,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _tappable = __webpack_require__(5);
+	var _reactTapper = __webpack_require__(6);
 
-	var _tappable2 = _interopRequireDefault(_tappable);
+	var _reactTapper2 = _interopRequireDefault(_reactTapper);
 
-	var _viewpoint = __webpack_require__(9);
+	var _es6Viewpoint = __webpack_require__(10);
 
-	var _viewpoint2 = _interopRequireDefault(_viewpoint);
+	var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
 
 	var Picker = _react2['default'].createClass({
 	    displayName: 'Picker',
@@ -641,7 +651,7 @@
 	                        }
 
 	                        return _react2['default'].createElement(
-	                            _tappable2['default'],
+	                            _reactTapper2['default'],
 	                            { key: j,
 	                                ref: 'op-' + i + '-' + j,
 	                                'data-id': i + '-' + j,
@@ -659,7 +669,7 @@
 	        this._initValueIndexes = initValueIndexes;
 
 	        var popupStyle = {};
-	        if (this.props.width && _viewpoint2['default'] && _viewpoint2['default'].width >= 768) {
+	        if (this.props.width && _es6Viewpoint2['default'] && _es6Viewpoint2['default'].width >= 768) {
 	            popupStyle.width = this.props.width;
 	        }
 
@@ -670,7 +680,7 @@
 	            _react2['default'].createElement(
 	                'div',
 	                { className: ["container", "table", this.props.className, this.state.open ? "show" : undefined].join(' ') },
-	                _react2['default'].createElement(_tappable2['default'], { className: 'overlay', onTap: this._handleOverlayTouchTap }),
+	                _react2['default'].createElement(_reactTapper2['default'], { className: 'overlay', onTap: this._handleOverlayTouchTap }),
 	                _react2['default'].createElement(
 	                    'div',
 	                    { className: 'cell' },
@@ -793,28 +803,28 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _touchSupport = __webpack_require__(6);
+	var _touchSupport = __webpack_require__(7);
 
 	var _touchSupport2 = _interopRequireDefault(_touchSupport);
 
-	var _touchStyles = __webpack_require__(8);
+	var _touchStyles = __webpack_require__(9);
 
 	var _touchStyles2 = _interopRequireDefault(_touchStyles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var _extends = Object.assign || function (target) {
 	    for (var i = 1; i < arguments.length; i++) {
@@ -826,26 +836,26 @@
 	    }return target;
 	};
 
-	var Tappable = _react2['default'].createClass({
+	var Tappable = _react2.default.createClass({
 	    displayName: 'Tappable',
 
 	    propTypes: {
-	        component: _react2['default'].PropTypes.any,
-	        onTap: _react2['default'].PropTypes.func,
+	        component: _react2.default.PropTypes.any,
+	        onTap: _react2.default.PropTypes.func,
 
-	        onSwiped: _react2['default'].PropTypes.func,
-	        onSwipingUp: _react2['default'].PropTypes.func,
-	        onSwipingRight: _react2['default'].PropTypes.func,
-	        onSwipingDown: _react2['default'].PropTypes.func,
-	        onSwipingLeft: _react2['default'].PropTypes.func,
-	        onSwipedUp: _react2['default'].PropTypes.func,
-	        onSwipedRight: _react2['default'].PropTypes.func,
-	        onSwipedDown: _react2['default'].PropTypes.func,
-	        onSwipedLeft: _react2['default'].PropTypes.func,
-	        flickThreshold: _react2['default'].PropTypes.number,
-	        delta: _react2['default'].PropTypes.number
+	        onSwiped: _react2.default.PropTypes.func,
+	        onSwipingUp: _react2.default.PropTypes.func,
+	        onSwipingRight: _react2.default.PropTypes.func,
+	        onSwipingDown: _react2.default.PropTypes.func,
+	        onSwipingLeft: _react2.default.PropTypes.func,
+	        onSwipedUp: _react2.default.PropTypes.func,
+	        onSwipedRight: _react2.default.PropTypes.func,
+	        onSwipedDown: _react2.default.PropTypes.func,
+	        onSwipedLeft: _react2.default.PropTypes.func,
+	        flickThreshold: _react2.default.PropTypes.number,
+	        delta: _react2.default.PropTypes.number
 	    },
-	    touchable: (0, _touchSupport2['default'])(),
+	    touchable: (0, _touchSupport2.default)(),
 	    getDefaultProps: function getDefaultProps() {
 	        return {
 	            component: 'div',
@@ -861,7 +871,6 @@
 	            start: 0
 	        };
 	    },
-
 	    calculatePos: function calculatePos(e) {
 	        var x = e.changedTouches[0].clientX;
 	        var y = e.changedTouches[0].clientY;
@@ -879,7 +888,6 @@
 	            absY: ayd
 	        };
 	    },
-
 	    touchStart: function touchStart(e) {
 	        if (e.touches.length > 1) {
 	            return;
@@ -897,7 +905,6 @@
 	            swiping: false
 	        });
 	    },
-
 	    touchMove: function touchMove(e) {
 	        if (!this.state.x || !this.state.y || e.touches.length > 1) {
 	            return;
@@ -942,7 +949,6 @@
 	            e.preventDefault();
 	        }
 	    },
-
 	    touchEnd: function touchEnd(ev) {
 	        if (this.state.swiping) {
 	            var pos = this.calculatePos(ev);
@@ -972,14 +978,12 @@
 
 	        this.setState(this.getInitialState());
 	    },
-
 	    _handleClick: function _handleClick(ev) {
 	        !this.touchable && this._handleTap(ev);
 	    },
 	    _handleTap: function _handleTap(ev) {
 	        this.props.onTap && this.props.onTap(ev);
 	    },
-
 	    handlers: function handlers() {
 	        return {
 	            onTouchStart: this.touchStart,
@@ -988,12 +992,11 @@
 	            onClick: this._handleClick
 	        };
 	    },
-
 	    render: function render() {
 
 	        var props = this.props,
 	            style = {};
-	        _extends(style, _touchStyles2['default'], props.style);
+	        _extends(style, _touchStyles2.default, props.style);
 
 	        var newComponentProps = _extends({}, props, {
 	            style: style,
@@ -1014,47 +1017,47 @@
 	        delete newComponentProps.stopPropagation;
 	        delete newComponentProps.component;
 
-	        return _react2['default'].createElement(props.component, newComponentProps, props.children);
+	        return _react2.default.createElement(props.component, newComponentProps, props.children);
 	    }
 	});
 
-	exports['default'] = Tappable;
-	module.exports = exports['default'];
+	exports.default = Tappable;
+
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _eventSupport = __webpack_require__(7);
+	var _eventSupport = __webpack_require__(8);
 
 	var _eventSupport2 = _interopRequireDefault(_eventSupport);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var __TouchSupported = undefined;
 	var touchSupport = function touchSupport() {
 	    if (typeof __TouchSupported === 'boolean') return __TouchSupported;
 
-	    __TouchSupported = (0, _eventSupport2['default'])("touchstart");
+	    __TouchSupported = (0, _eventSupport2.default)("touchstart"); //("ontouchstart" in document.documentElement)
 	    return __TouchSupported;
 	};
 
-	exports['default'] = touchSupport;
-	module.exports = exports['default'];
+	exports.default = touchSupport;
+
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	var TAGNAMES = {
@@ -1068,9 +1071,11 @@
 	};
 
 	var eventSupport = function eventSupport(eventName) {
+	    //to support compilation in server-side
+	    if (typeof window === "undefined" || typeof document === "undefined") return false;
 	    var el = document.createElement(TAGNAMES[eventName] || 'div');
 	    eventName = 'on' + eventName;
-	    var isSupported = (eventName in el);
+	    var isSupported = eventName in el;
 	    if (!isSupported) {
 	        el.setAttribute(eventName, 'return;');
 	        isSupported = typeof el[eventName] == 'function';
@@ -1079,16 +1084,16 @@
 	    return isSupported;
 	};
 
-	exports['default'] = eventSupport;
-	module.exports = exports['default'];
+	exports.default = eventSupport;
+
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	var touchStyles = {
@@ -1098,28 +1103,28 @@
 	    KhtmlUserSelect: 'none',
 	    MozUserSelect: 'none',
 	    msUserSelect: 'none',
-	    userSelect: 'none',
-	    cursor: 'pointer'
+	    userSelect: 'none'
 	};
 
-	exports['default'] = touchStyles;
-	module.exports = exports['default'];
+	//cursor: 'pointer'
+	exports.default = touchStyles;
+
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var ViewPoint = (function () {
+	var ViewPoint = function () {
 	    function ViewPoint() {
 	        _classCallCheck(this, ViewPoint);
 
@@ -1144,10 +1149,16 @@
 	            if (window && typeof window.innerWidth !== 'undefined') {
 	                this.width = window.innerWidth;
 	                this.height = window.innerHeight;
-	            } else if (document && typeof document.documentElement !== 'undefined' && typeof document.documentElement.clientWidth !== 'undefined' && document.documentElement.clientWidth !== 0) {
+	            }
+
+	            // IE6
+	            else if (document && typeof document.documentElement !== 'undefined' && typeof document.documentElement.clientWidth !== 'undefined' && document.documentElement.clientWidth !== 0) {
 	                    this.width = document.documentElement.clientWidth;
 	                    this.height = document.documentElement.clientHeight;
-	                } else if (document) {
+	                }
+
+	                //Older IE
+	                else if (document) {
 	                        this.width = document.getElementsByTagName('body')[0].clientWidth;
 	                        this.height = document.getElementsByTagName('body')[0].clientHeight;
 	                    }
@@ -1155,12 +1166,12 @@
 	    }]);
 
 	    return ViewPoint;
-	})();
+	}();
 
 	var viewpoint = new ViewPoint();
 
-	exports['default'] = viewpoint;
-	module.exports = exports['default'];
+	exports.default = viewpoint;
+
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,6 @@
 import React from 'react'
-import Tappable from './tappable'
-import ViewPoint from './viewpoint'
+import Tappable from 'react-tapper'
+import ViewPoint from 'es6-viewpoint'
 
 
 let Picker = React.createClass({

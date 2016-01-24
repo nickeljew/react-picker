@@ -14,16 +14,17 @@ module.exports = {
         //, libraryTarget: 'commonjs2'
     }
     , resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx', '.es6']
         , root: path.resolve('src')
         , modulesDirectories: ['node_modules', 'src']
     }
     , externals: {
         react: 'React'
+        , 'react-dom': 'ReactDOM'
     }
     , module: {
         loaders: [{
-            test: /\.js(x?)$/
+            test: [/\.jsx$/, /\.es6$/]
             , exclude: [path.resolve('node_modules')]
             , loader: 'babel'
             , query: {

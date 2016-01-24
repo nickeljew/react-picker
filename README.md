@@ -64,9 +64,22 @@ import Picker from 'react-picker'
 OptionBox is a customized component defined for the demo.
 
 
-#### Import CSS/SCSS
+#### Using CSS/SCSS
 
-Then, import css/picker.css, or scss/picker.scss if you are suing SCSS, into your project.
+CSS:  import css/picker.css
+
+SCSS: 1) import bourbon library (http://bourbon.io/), 2) import scss/picker.scss
+
+
+#### Properites
+
+- @value: Default selected option value
+- @options: Options of the picker
+- @onChange: callback on changing selected option
+- @onShow: callback on calling show method
+- @onDismiss: callback on calling dismiss method
+- @onClickAway: callback on clicking area outside the picker panel
+- @width: width of the picker panel
 
 
 ## License
