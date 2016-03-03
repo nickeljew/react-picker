@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Tappable from 'react-tapper'
 import ViewPoint from 'es6-viewpoint'
 
@@ -32,7 +33,7 @@ let Picker = React.createClass({
         if ( Array.isArray(nextProps.value) ) {
             nextProps.value.forEach((v, idx) => {
                 if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
-                    let node = React.findDOMNode( this.refs['list-'+idx] )
+                    let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
                     node.scrollTop = this._scrollStartTop[idx] = 0
                 }
             })
@@ -47,11 +48,11 @@ let Picker = React.createClass({
     , componentDidMount () {
         let op = this.refs['op-0-0']
         if (op) {
-            this.optionHeight = React.findDOMNode(op).clientHeight
+            this.optionHeight = ReactDOM.findDOMNode(op).clientHeight
         }
         this._initValueIndexes.forEach((vi, idx) => {
             if (vi > 0) {
-                let node = React.findDOMNode( this.refs['list-'+idx] )
+                let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
                 node.scrollTop = this._scrollStartTop[idx] = vi * this.optionHeight
             }
         })
@@ -223,7 +224,7 @@ let Picker = React.createClass({
             this._scrollStartTop[idx] = scrollTop
 
             let opname = `op-${idx}-${scrollTop / opHeight}`
-            let op = React.findDOMNode( this.refs[opname] ).getAttribute('data-value')
+            let op = ReactDOM.findDOMNode( this.refs[opname] ).getAttribute('data-value')
             if (!op)
                 return
             op = JSON.parse(op)
@@ -254,7 +255,7 @@ let Picker = React.createClass({
         let _list = this.refs['list-' + arr[0]]
         if (!_list)
             return
-        let list = React.findDOMNode(_list)
+        let list = _list //div, ReactDOM.findDOMNode(_list)
         list.scrollTop = this.optionHeight * parseInt(arr[1], 10)
     }
 

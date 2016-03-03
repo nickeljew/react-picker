@@ -533,6 +533,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(2);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _reactTapper = __webpack_require__(6);
 
 	var _reactTapper2 = _interopRequireDefault(_reactTapper);
@@ -573,7 +577,7 @@
 	        if (Array.isArray(nextProps.value)) {
 	            nextProps.value.forEach(function (v, idx) {
 	                if (_this.state.options[idx] && _this.state.options[idx] !== nextProps.options[idx]) {
-	                    var node = _react2['default'].findDOMNode(_this.refs['list-' + idx]);
+	                    var node = _this.refs['list-' + idx];
 	                    node.scrollTop = _this._scrollStartTop[idx] = 0;
 	                }
 	            });
@@ -590,11 +594,11 @@
 
 	        var op = this.refs['op-0-0'];
 	        if (op) {
-	            this.optionHeight = _react2['default'].findDOMNode(op).clientHeight;
+	            this.optionHeight = _reactDom2['default'].findDOMNode(op).clientHeight;
 	        }
 	        this._initValueIndexes.forEach(function (vi, idx) {
 	            if (vi > 0) {
-	                var node = _react2['default'].findDOMNode(_this2.refs['list-' + idx]);
+	                var node = _this2.refs['list-' + idx];
 	                node.scrollTop = _this2._scrollStartTop[idx] = vi * _this2.optionHeight;
 	            }
 	        });
@@ -766,7 +770,7 @@
 	            _this4._scrollStartTop[idx] = scrollTop;
 
 	            var opname = 'op-' + idx + '-' + scrollTop / opHeight;
-	            var op = _react2['default'].findDOMNode(_this4.refs[opname]).getAttribute('data-value');
+	            var op = _reactDom2['default'].findDOMNode(_this4.refs[opname]).getAttribute('data-value');
 	            if (!op) return;
 	            op = JSON.parse(op);
 
@@ -793,7 +797,7 @@
 
 	        var _list = this.refs['list-' + arr[0]];
 	        if (!_list) return;
-	        var list = _react2['default'].findDOMNode(_list);
+	        var list = _list;
 	        list.scrollTop = this.optionHeight * parseInt(arr[1], 10);
 	    }
 
