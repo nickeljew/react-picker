@@ -545,7 +545,7 @@
 
 	var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
 
-	var isBrowser = typeof window !== "undefined" && typeof document === "undefined";
+	var isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
 
 	var Picker = _react2['default'].createClass({
 	    displayName: 'Picker',

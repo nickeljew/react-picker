@@ -13,7 +13,7 @@
     "choices"
   ],
   "author": "Nickel Jianhui Zhu <nickeljew@hotmail.com>",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "license": "MIT",
   "private": false,
   "main": "lib/picker.js",
@@ -28,7 +28,8 @@
     "react-tapper": "^0.1.5"
   },
   "peerDependencies": {
-    "react": "^0.14.3"
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
   },
   "devDependencies": {
     "babel-core": "^5.8.22",

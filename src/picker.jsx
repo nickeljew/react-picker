@@ -4,7 +4,8 @@ import Tappable from 'react-tapper'
 import ViewPoint from 'es6-viewpoint'
 
 
-const isBrowser = (typeof window !== "undefined" && typeof document === "undefined")
+const isBrowser = (typeof window !== "undefined" && typeof document !== "undefined")
+
 
 const Picker = React.createClass({
 
