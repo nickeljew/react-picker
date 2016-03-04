@@ -545,6 +545,8 @@
 
 	var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
 
+	var isBrowser = typeof window !== "undefined" && typeof document === "undefined";
+
 	var Picker = _react2['default'].createClass({
 	    displayName: 'Picker',
 
@@ -636,7 +638,7 @@
 	                    'data-id': i,
 	                    className: 'list-wrap',
 	                    style: style,
-	                    onScroll: _this3._onScroll
+	                    onScroll: isBrowser ? _this3._onScroll : undefined
 	                },
 	                _react2['default'].createElement(
 	                    'ul',

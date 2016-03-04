@@ -4,7 +4,9 @@ import Tappable from 'react-tapper'
 import ViewPoint from 'es6-viewpoint'
 
 
-let Picker = React.createClass({
+const isBrowser = (typeof window !== "undefined" && typeof document === "undefined")
+
+const Picker = React.createClass({
 
     propTypes: {
         value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.array]).isRequired
@@ -92,7 +94,7 @@ let Picker = React.createClass({
                     data-id={i}
                     className="list-wrap"
                     style={style}
-                    onScroll={this._onScroll}
+                    onScroll={isBrowser ? this._onScroll : undefined}
                     >
                     <ul>
                         {
