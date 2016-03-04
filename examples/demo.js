@@ -650,7 +650,8 @@
 	                                text: op,
 	                                value: op
 	                            };
-	                        } else if (typeof op !== 'object' || !op.text || !op.value) return;
+	                        } else if (typeof op !== 'object' || !op.text) return;
+	                        if (!op.value) op.value = '';
 
 	                        if (String(op.value) === String(values[i])) {
 	                            initValueIndexes.push(j);
