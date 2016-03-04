@@ -588,7 +588,10 @@
 	            options: this.props.options,
 	            open: false,
 	            optionHeight: 0,
-	            _scrollStartTop: []
+	            _scrollStartTop: [],
+	            _initValueIndexes: [],
+	            _scrollTimer: undefined,
+	            closeable: false
 	        };
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -616,7 +619,7 @@
 	        if (op) {
 	            opHeight = this.state.optionHeight = _reactDom2['default'].findDOMNode(op).clientHeight;
 	        }
-	        this._initValueIndexes.forEach(function (vi, idx) {
+	        this.state._initValueIndexes.forEach(function (vi, idx) {
 	            if (vi > 0) {
 	                var node = _this2.refs['list-' + idx];
 	                node.scrollTop = _this2.state._scrollStartTop[idx] = vi * opHeight;
@@ -691,7 +694,7 @@
 	            );
 	        });
 
-	        this._initValueIndexes = initValueIndexes;
+	        this.state._initValueIndexes = initValueIndexes;
 
 	        var popupStyle = {};
 	        if (this.props.width && _es6Viewpoint2['default'] && _es6Viewpoint2['default'].width >= 768) {
@@ -721,41 +724,33 @@
 	        );
 	    },
 
-	    closeable: false,
-
 	    dismiss: function dismiss() {
-	        if (this.closeable) {
+	        if (this.state.closeable) {
 	            this._onDismiss();
 	        }
 	    },
-
 	    show: function show() {
 	        this._onShow();
 	    },
-
 	    _handleOverlayTouchTap: function _handleOverlayTouchTap() {
-	        if (this.closeable) {
+	        if (this.state.closeable) {
 	            this._onDismiss();
 	            this.props.onClickAway && this.props.onClickAway();
 	        }
 	    },
-
 	    _onShow: function _onShow() {
 	        setTimeout((function () {
-	            this.closeable = true;
+	            this.state.closeable = true;
 	        }).bind(this), 250);
 	        this.setState({ open: true });
 	        this.props.onShow && this.props.onShow();
 	    },
-
 	    _onDismiss: function _onDismiss() {
 	        this.setState({ open: false, loading: false });
 	        this.props.onDismiss && this.props.onDismiss();
 	    },
 
 	    _onPageScroll: function _onPageScroll(e) {},
-
-	    _scrollTimer: undefined,
 	    _onScroll: function _onScroll(e) {
 	        var _this4 = this;
 
@@ -764,8 +759,8 @@
 	            opHeight = this.state.optionHeight,
 	            scrollStartTop = this.state._scrollStartTop;
 
-	        window.clearTimeout(this._scrollTimer);
-	        this._scrollTimer = window.setTimeout(function () {
+	        window.clearTimeout(this.state._scrollTimer);
+	        this.state._scrollTimer = window.setTimeout(function () {
 	            if (typeof scrollStartTop[idx] !== 'number') scrollStartTop[idx] = 0;
 	            if (scrollStartTop[idx] === el.scrollTop) return;
 

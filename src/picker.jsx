@@ -32,6 +32,9 @@ const Picker = React.createClass({
             , open: false
             , optionHeight: 0
             , _scrollStartTop: []
+            , _initValueIndexes: []
+            , _scrollTimer: undefined
+            , closeable: false
         }
     }
     , componentWillReceiveProps(nextProps){
@@ -56,7 +59,7 @@ const Picker = React.createClass({
         if (op) {
             opHeight = this.state.optionHeight = ReactDOM.findDOMNode(op).clientHeight
         }
-        this._initValueIndexes.forEach((vi, idx) => {
+        this.state._initValueIndexes.forEach((vi, idx) => {
             if (vi > 0) {
                 let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
                 node.scrollTop = this.state._scrollStartTop[idx] = vi * opHeight
@@ -137,7 +140,7 @@ const Picker = React.createClass({
             )
         })
 
-        this._initValueIndexes = initValueIndexes
+        this.state._initValueIndexes = initValueIndexes
 
         let popupStyle = {}
         if (this.props.width && ViewPoint && ViewPoint.width >= 768) {
@@ -161,32 +164,26 @@ const Picker = React.createClass({
         )
     }
 
-    , closeable: false
-
     , dismiss() {
-        if (this.closeable) {
+        if (this.state.closeable) {
             this._onDismiss()
         }
     }
-
     , show() {
         // prevent rapid show/hide
         this._onShow()
     }
-
     ,  _handleOverlayTouchTap() {
-        if (this.closeable) {
+        if (this.state.closeable) {
             this._onDismiss()
             this.props.onClickAway && this.props.onClickAway()
         }
     }
-
     , _onShow() {
-        setTimeout(function(){this.closeable = true;}.bind(this), 250)
+        setTimeout(function(){ this.state.closeable = true }.bind(this), 250)
         this.setState({ open: true })
         this.props.onShow && this.props.onShow()
     }
-
     , _onDismiss() {
         this.setState({ open: false, loading: false })
         this.props.onDismiss && this.props.onDismiss()
@@ -194,16 +191,14 @@ const Picker = React.createClass({
 
     , _onPageScroll(e) {
     }
-
-    , _scrollTimer: undefined
     , _onScroll(e) {
         let el = e.target
             , idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10)
             , opHeight = this.state.optionHeight
             , scrollStartTop = this.state._scrollStartTop
 
-        window.clearTimeout( this._scrollTimer )
-        this._scrollTimer = window.setTimeout( () => {
+        window.clearTimeout( this.state._scrollTimer )
+        this.state._scrollTimer = window.setTimeout( () => {
             if (typeof scrollStartTop[idx] !== 'number')
                 scrollStartTop[idx] = 0
             if (scrollStartTop[idx] === el.scrollTop)
