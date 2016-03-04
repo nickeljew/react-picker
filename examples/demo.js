@@ -106,6 +106,11 @@
 	        }
 	    });
 
+	    var Fruits = ['Mango', 'Orange', 'Avocado', 'Pineapple', 'Jack Fruit', 'Durian', 'Apricot', 'Carambola', 'Dateplum Persimmon', 'Megranate'];
+	    var Fruits2 = [{ text: 'Watermelon', value: '' }, { text: 'Banana', value: 'Banana' }, { text: 'Lichi', value: 'Lichi' }];
+	    var FruitOptions = Fruits;
+	    var defaultFruit = 'Avocado';
+
 	    var Cars = [{
 	        text: 'ASTON MARTIN',
 	        value: '1001',
@@ -198,6 +203,7 @@
 	                fruit: this.props.fruit,
 	                brand: this.props.brand,
 	                serial: this.props.serial,
+	                fruits: FruitOptions,
 	                brands: Cars,
 	                series: this.getCarSeries(this.props.brand)
 	            };
@@ -237,11 +243,11 @@
 	                            {
 	                                ref: 'fruitSelection',
 	                                value: fruit,
-	                                options: ['Mango', 'Orange', 'Avocado', 'Pineapple', 'Jack Fruit', 'Durian', 'Apricot', 'Carambola', 'Dateplum Persimmon', 'Megranate'],
+	                                options: this.state.fruits,
 	                                onChange: this._handleFruitChange,
 	                                width: '250px'
 	                            },
-	                            _react2['default'].createElement(OptionBox, { value: fruit, onClick: this._handleClickFruit })
+	                            _react2['default'].createElement(OptionBox, { value: this.getFruitText(fruit), onClick: this._handleClickFruit })
 	                        )
 	                    )
 	                ),
@@ -302,6 +308,15 @@
 	            }
 	        },
 
+	        getFruitText: function getFruitText(fruit) {
+	            var fruits = this.state.fruits;
+	            for (var i = 0; i < fruits.length; i++) {
+	                var o = fruits[i];
+	                if (typeof o === 'string' && o === fruit) return o;
+	                if (o && o.text && o.value === fruit) return o.text;
+	            }
+	        },
+
 	        getCarSeries: function getCarSeries(brand) {
 	            for (var i = 0; i < Cars.length; i++) {
 	                if (Cars[i].value === brand) return Cars[i].series;
@@ -312,11 +327,12 @@
 	        getCarText: function getCarText(brand, serial) {
 	            var series = undefined,
 	                b = undefined,
-	                s = undefined;
-	            for (var i = 0; i < Cars.length; i++) {
-	                if (Cars[i].value === brand) {
-	                    series = Cars[i].series;
-	                    b = Cars[i].text;
+	                s = undefined,
+	                brands = this.state.brands;
+	            for (var i = 0; i < brands.length; i++) {
+	                if (brands[i].value === brand) {
+	                    series = brands[i].series;
+	                    b = brands[i].text;
 	                    break;
 	                }
 	            }
@@ -356,7 +372,7 @@
 	            return _react2['default'].createElement(
 	                'div',
 	                { className: 'list-area' },
-	                _react2['default'].createElement(List, { fruit: 'Avocado' })
+	                _react2['default'].createElement(List, { fruit: defaultFruit })
 	            );
 	        }
 	    });
@@ -570,7 +586,9 @@
 	        return {
 	            value: this.props.value,
 	            options: this.props.options,
-	            open: false
+	            open: false,
+	            optionHeight: 0,
+	            _scrollStartTop: []
 	        };
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -580,7 +598,7 @@
 	            nextProps.value.forEach(function (v, idx) {
 	                if (_this.state.options[idx] && _this.state.options[idx] !== nextProps.options[idx]) {
 	                    var node = _this.refs['list-' + idx];
-	                    node.scrollTop = _this._scrollStartTop[idx] = 0;
+	                    node.scrollTop = _this.state._scrollStartTop[idx] = 0;
 	                }
 	            });
 	        }
@@ -590,18 +608,18 @@
 	        });
 	    },
 
-	    optionHeight: 0,
 	    componentDidMount: function componentDidMount() {
 	        var _this2 = this;
 
-	        var op = this.refs['op-0-0'];
+	        var op = this.refs['op-0-0'],
+	            opHeight = 0;
 	        if (op) {
-	            this.optionHeight = _reactDom2['default'].findDOMNode(op).clientHeight;
+	            opHeight = this.state.optionHeight = _reactDom2['default'].findDOMNode(op).clientHeight;
 	        }
 	        this._initValueIndexes.forEach(function (vi, idx) {
 	            if (vi > 0) {
 	                var node = _this2.refs['list-' + idx];
-	                node.scrollTop = _this2._scrollStartTop[idx] = vi * _this2.optionHeight;
+	                node.scrollTop = _this2.state._scrollStartTop[idx] = vi * opHeight;
 	            }
 	        });
 	    },
@@ -737,19 +755,19 @@
 
 	    _onPageScroll: function _onPageScroll(e) {},
 
-	    _scrollStartTop: [],
 	    _scrollTimer: undefined,
 	    _onScroll: function _onScroll(e) {
 	        var _this4 = this;
 
 	        var el = e.target,
 	            idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10),
-	            opHeight = this.optionHeight;
+	            opHeight = this.state.optionHeight,
+	            scrollStartTop = this.state._scrollStartTop;
 
 	        window.clearTimeout(this._scrollTimer);
 	        this._scrollTimer = window.setTimeout(function () {
-	            if (typeof _this4._scrollStartTop[idx] !== 'number') _this4._scrollStartTop[idx] = 0;
-	            if (_this4._scrollStartTop[idx] === el.scrollTop) return;
+	            if (typeof scrollStartTop[idx] !== 'number') scrollStartTop[idx] = 0;
+	            if (scrollStartTop[idx] === el.scrollTop) return;
 
 	            var scrollTop = el.scrollTop,
 	                mod = scrollTop % opHeight,
@@ -765,12 +783,12 @@
 	                el.scrollTop -= mod;
 	            };
 
-	            if (scrollTop > _this4._scrollStartTop[idx]) {
+	            if (scrollTop > scrollStartTop[idx]) {
 	                percent > 0.46 ? toLowerItem() : toUpperItem();
 	            } else {
 	                percent < 0.64 ? toUpperItem() : toLowerItem();
 	            }
-	            _this4._scrollStartTop[idx] = scrollTop;
+	            scrollStartTop[idx] = scrollTop;
 
 	            var opname = 'op-' + idx + '-' + scrollTop / opHeight;
 	            var op = _reactDom2['default'].findDOMNode(_this4.refs[opname]).getAttribute('data-value');
@@ -801,7 +819,7 @@
 	        var _list = this.refs['list-' + arr[0]];
 	        if (!_list) return;
 	        var list = _list;
-	        list.scrollTop = this.optionHeight * parseInt(arr[1], 10);
+	        list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10);
 	    }
 
 	});

@@ -42,9 +42,17 @@ DocReady(function() {
 
 
 
+    const Fruits = ['Mango', 'Orange', 'Avocado', 'Pineapple', 'Jack Fruit', 'Durian', 'Apricot', 'Carambola', 'Dateplum Persimmon', 'Megranate']
+    const Fruits2 = [
+        { text: 'Watermelon', value: '' },
+        { text: 'Banana', value: 'Banana' },
+        { text: 'Lichi', value: 'Lichi' },
+    ]
+    const FruitOptions = Fruits
+    const defaultFruit = 'Avocado'
 
 
-    let Cars = [
+    const Cars = [
         {
             text: 'ASTON MARTIN'
             , value: '1001'
@@ -163,6 +171,7 @@ DocReady(function() {
                 fruit: this.props.fruit
                 , brand: this.props.brand
                 , serial: this.props.serial
+                , fruits: FruitOptions
                 , brands: Cars
                 , series: this.getCarSeries(this.props.brand)
             }
@@ -191,11 +200,11 @@ DocReady(function() {
                             <Picker
                                 ref="fruitSelection"
                                 value={fruit}
-                                options={['Mango', 'Orange', 'Avocado', 'Pineapple', 'Jack Fruit', 'Durian', 'Apricot', 'Carambola', 'Dateplum Persimmon', 'Megranate']}
+                                options={this.state.fruits}
                                 onChange={this._handleFruitChange}
                                 width="250px"
                                 >
-                                <OptionBox value={fruit} onClick={this._handleClickFruit} />
+                                <OptionBox value={this.getFruitText(fruit)} onClick={this._handleClickFruit} />
                             </Picker>
                         </div>
                     </li>
@@ -246,6 +255,17 @@ DocReady(function() {
             }
         }
 
+        , getFruitText(fruit) {
+            let fruits = this.state.fruits
+            for (let i = 0; i < fruits.length; i++) {
+                let o = fruits[i]
+                if (typeof o === 'string' && o === fruit)
+                    return o
+                if (o && o.text && o.value === fruit)
+                    return o.text
+            }
+        }
+
         , getCarSeries(brand) {
             for (let i = 0; i < Cars.length; i++) {
                 if (Cars[i].value === brand)
@@ -255,11 +275,11 @@ DocReady(function() {
         }
 
         , getCarText(brand, serial) {
-            let series, b, s
-            for (let i = 0; i < Cars.length; i++) {
-                if (Cars[i].value === brand) {
-                    series = Cars[i].series
-                    b = Cars[i].text
+            let series, b, s, brands = this.state.brands
+            for (let i = 0; i < brands.length; i++) {
+                if (brands[i].value === brand) {
+                    series = brands[i].series
+                    b = brands[i].text
                     break
                 }
             }
@@ -303,7 +323,7 @@ DocReady(function() {
 
             return (
                 <div className="list-area">
-                    <List fruit="Avocado" />
+                    <List fruit={defaultFruit} />
                 </div>
             )
         }

@@ -30,6 +30,8 @@ const Picker = React.createClass({
             value: this.props.value
             , options: this.props.options
             , open: false
+            , optionHeight: 0
+            , _scrollStartTop: []
         }
     }
     , componentWillReceiveProps(nextProps){
@@ -37,7 +39,7 @@ const Picker = React.createClass({
             nextProps.value.forEach((v, idx) => {
                 if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
                     let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
-                    node.scrollTop = this._scrollStartTop[idx] = 0
+                    node.scrollTop = this.state._scrollStartTop[idx] = 0
                 }
             })
         }
@@ -47,16 +49,17 @@ const Picker = React.createClass({
         })
     }
 
-    , optionHeight: 0
+    //, optionHeight: 0
     , componentDidMount () {
         let op = this.refs['op-0-0']
+            , opHeight = 0
         if (op) {
-            this.optionHeight = ReactDOM.findDOMNode(op).clientHeight
+            opHeight = this.state.optionHeight = ReactDOM.findDOMNode(op).clientHeight
         }
         this._initValueIndexes.forEach((vi, idx) => {
             if (vi > 0) {
                 let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
-                node.scrollTop = this._scrollStartTop[idx] = vi * this.optionHeight
+                node.scrollTop = this.state._scrollStartTop[idx] = vi * opHeight
             }
         })
         //window.addEventListener('scroll', this._onPageScroll)
@@ -192,18 +195,18 @@ const Picker = React.createClass({
     , _onPageScroll(e) {
     }
 
-    , _scrollStartTop: []
     , _scrollTimer: undefined
     , _onScroll(e) {
         let el = e.target
             , idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10)
-            , opHeight = this.optionHeight
+            , opHeight = this.state.optionHeight
+            , scrollStartTop = this.state._scrollStartTop
 
         window.clearTimeout( this._scrollTimer )
         this._scrollTimer = window.setTimeout( () => {
-            if (typeof this._scrollStartTop[idx] !== 'number')
-                this._scrollStartTop[idx] = 0
-            if (this._scrollStartTop[idx] === el.scrollTop)
+            if (typeof scrollStartTop[idx] !== 'number')
+                scrollStartTop[idx] = 0
+            if (scrollStartTop[idx] === el.scrollTop)
                 return
 
             let scrollTop = el.scrollTop
@@ -220,13 +223,13 @@ const Picker = React.createClass({
                 el.scrollTop -= mod
             }
 
-            if (scrollTop > this._scrollStartTop[idx]) {
+            if (scrollTop > scrollStartTop[idx]) {
                 percent > 0.46 ? toLowerItem() : toUpperItem()
             }
             else {
                 percent < 0.64 ? toUpperItem() : toLowerItem()
             }
-            this._scrollStartTop[idx] = scrollTop
+            scrollStartTop[idx] = scrollTop
 
             let opname = `op-${idx}-${scrollTop / opHeight}`
             let op = ReactDOM.findDOMNode( this.refs[opname] ).getAttribute('data-value')
@@ -261,7 +264,7 @@ const Picker = React.createClass({
         if (!_list)
             return
         let list = _list //div, ReactDOM.findDOMNode(_list)
-        list.scrollTop = this.optionHeight * parseInt(arr[1], 10)
+        list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10)
     }
 
 })
