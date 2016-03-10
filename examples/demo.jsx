@@ -164,6 +164,8 @@ DocReady(function() {
         , getDefaultProps () {
             return {
                 brand: Cars[0].value
+                , brand: '1002'
+                , serial: '100203'
             }
         }
         , getInitialState() {

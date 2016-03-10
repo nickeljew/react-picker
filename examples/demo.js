@@ -195,7 +195,9 @@
 	        },
 	        getDefaultProps: function getDefaultProps() {
 	            return {
-	                brand: Cars[0].value
+	                brand: Cars[0].value,
+	                brand: '1002',
+	                serial: '100203'
 	            };
 	        },
 	        getInitialState: function getInitialState() {
@@ -597,14 +599,33 @@
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        var _this = this;
 
-	        if (Array.isArray(nextProps.value)) {
-	            nextProps.value.forEach(function (v, idx) {
-	                if (_this.state.options[idx] && _this.state.options[idx] !== nextProps.options[idx]) {
-	                    var node = _this.refs['list-' + idx];
-	                    node.scrollTop = _this.state._scrollStartTop[idx] = 0;
-	                }
-	            });
+	        var values = nextProps.value,
+	            opArr = nextProps.options,
+	            preValues = this.state.value,
+	            preOpArr = this.state.options,
+	            opHeight = this.state.optionHeight;
+	        if (!Array.isArray(values)) {
+	            values = [values];
+	            opArr = [opArr];
+	            preValues = [preValues];
+	            preOpArr = [preOpArr];
 	        }
+	        values.forEach(function (v, idx) {
+	            if (values[idx] !== preValues[idx] || opArr[idx] !== preOpArr[idx]) {
+	                var ops = opArr[idx],
+	                    _top = 0;
+	                for (var oi = 0; oi < ops.length; oi++) {
+	                    var opv = typeof ops[oi] === 'string' || typeof ops[oi] === 'number' ? ops[oi] : ops[oi].value;
+	                    if (String(opv) === String(v)) {
+	                        _top = oi * opHeight;
+	                        break;
+	                    }
+	                }
+	                var node = _this.refs['list-' + idx];
+	                node.scrollTop = _this.state._scrollStartTop[idx] = _top;
+	            }
+	        });
+
 	        this.setState({
 	            value: nextProps.value,
 	            options: nextProps.options

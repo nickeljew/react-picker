@@ -38,14 +38,43 @@ const Picker = React.createClass({
         }
     }
     , componentWillReceiveProps(nextProps){
-        if ( Array.isArray(nextProps.value) ) {
-            nextProps.value.forEach((v, idx) => {
-                if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
-                    let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
-                    node.scrollTop = this.state._scrollStartTop[idx] = 0
-                }
-            })
+        //if ( Array.isArray(nextProps.value) ) {
+        //    nextProps.value.forEach((v, idx) => {
+        //        if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
+        //            let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
+        //            node.scrollTop = this.state._scrollStartTop[idx] = 0
+        //        }
+        //    })
+        //}
+
+        //fixed scrollTop when update props
+        let values = nextProps.value
+            , opArr = nextProps.options
+            , preValues = this.state.value
+            , preOpArr = this.state.options
+            , opHeight = this.state.optionHeight
+        if ( ! Array.isArray(values)) {
+            values = [values]
+            opArr = [opArr]
+            preValues = [preValues]
+            preOpArr = [preOpArr]
         }
+        values.forEach((v, idx) => {
+            if (values[idx] !== preValues[idx] || opArr[idx] !== preOpArr[idx]) {
+                let ops = opArr[idx]
+                    , top = 0
+                for (let oi = 0; oi < ops.length; oi++) {
+                    let opv = (typeof ops[oi] === 'string' || typeof ops[oi] === 'number') ? ops[oi] : ops[oi].value
+                    if (String(opv) === String(v)) {
+                        top = oi * opHeight
+                        break
+                    }
+                }
+                let node = this.refs['list-'+idx] //div, ReactDOM.findDOMNode( this.refs['list-'+idx] )
+                node.scrollTop = this.state._scrollStartTop[idx] = top
+            }
+        })
+
         this.setState({
             value: nextProps.value
             , options: nextProps.options
