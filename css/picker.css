@@ -140,6 +140,7 @@
   text-align: center;
   line-height: 3.4rem;
   font-size: 1.32rem;
+  cursor: pointer;
 }
 @media screen and (min-width: 768px) {
   .picker > .container .popup .list-wrap li:hover {
