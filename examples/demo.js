@@ -46,8 +46,6 @@
 
 	'use strict';
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -64,18 +62,22 @@
 
 	var _es6Dom2 = _interopRequireDefault(_es6Dom);
 
-	var _srcPicker = __webpack_require__(5);
+	var _picker = __webpack_require__(5);
 
-	var _srcPicker2 = _interopRequireDefault(_srcPicker);
+	var _picker2 = _interopRequireDefault(_picker);
 
-	(0, _es6Docready2['default'])(function () {
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	    var OptionBox = _react2['default'].createClass({
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	(0, _es6Docready2.default)(function () {
+
+	    var OptionBox = _react2.default.createClass({
 	        displayName: 'OptionBox',
 
 	        propTypes: {
-	            value: _react2['default'].PropTypes.string,
-	            onClick: _react2['default'].PropTypes.func
+	            value: _react2.default.PropTypes.string,
+	            onClick: _react2.default.PropTypes.func
 	        },
 	        getInitialState: function getInitialState() {
 	            return {
@@ -87,20 +89,18 @@
 	                value: nextProps.value || 'N/A'
 	            });
 	        },
-
 	        render: function render() {
 
-	            return _react2['default'].createElement(
+	            return _react2.default.createElement(
 	                'div',
 	                { className: 'box', onClick: this._handleClick },
-	                _react2['default'].createElement(
+	                _react2.default.createElement(
 	                    'label',
 	                    null,
 	                    this.state.value
 	                )
 	            );
 	        },
-
 	        _handleClick: function _handleClick(e) {
 	            this.props.onClick && this.props.onClick(e);
 	        }
@@ -185,20 +185,20 @@
 	        }]
 	    }];
 
-	    var List = _react2['default'].createClass({
+	    var List = _react2.default.createClass({
 	        displayName: 'List',
 
 	        propTypes: {
-	            fruit: _react2['default'].PropTypes.string,
-	            brand: _react2['default'].PropTypes.string,
-	            serial: _react2['default'].PropTypes.string
+	            fruit: _react2.default.PropTypes.string,
+	            brand: _react2.default.PropTypes.string,
+	            serial: _react2.default.PropTypes.string
 	        },
 	        getDefaultProps: function getDefaultProps() {
-	            return {
-	                brand: Cars[0].value,
-	                brand: '1002',
-	                serial: '100203'
-	            };
+	            var _ref;
+
+	            return _ref = {
+	                brand: Cars[0].value
+	            }, _defineProperty(_ref, 'brand', '1002'), _defineProperty(_ref, 'serial', '100203'), _ref;
 	        },
 	        getInitialState: function getInitialState() {
 	            return {
@@ -217,31 +217,29 @@
 	                serial: nextProps.serial
 	            });
 	        },
-
 	        componentDidMount: function componentDidMount() {},
-
 	        render: function render() {
 
 	            var fruit = this.state.fruit,
 	                brand = this.state.brand,
 	                serial = this.state.serial;
 
-	            return _react2['default'].createElement(
+	            return _react2.default.createElement(
 	                'ul',
 	                null,
-	                _react2['default'].createElement(
+	                _react2.default.createElement(
 	                    'li',
 	                    null,
-	                    _react2['default'].createElement(
+	                    _react2.default.createElement(
 	                        'label',
 	                        null,
 	                        'Choice X'
 	                    ),
-	                    _react2['default'].createElement(
+	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'edit' },
-	                        _react2['default'].createElement(
-	                            _srcPicker2['default'],
+	                        _react2.default.createElement(
+	                            _picker2.default,
 	                            {
 	                                ref: 'fruitSelection',
 	                                value: fruit,
@@ -249,23 +247,23 @@
 	                                onChange: this._handleFruitChange,
 	                                width: '250px'
 	                            },
-	                            _react2['default'].createElement(OptionBox, { value: this.getFruitText(fruit), onClick: this._handleClickFruit })
+	                            _react2.default.createElement(OptionBox, { value: this.getFruitText(fruit), onClick: this._handleClickFruit })
 	                        )
 	                    )
 	                ),
-	                _react2['default'].createElement(
+	                _react2.default.createElement(
 	                    'li',
 	                    null,
-	                    _react2['default'].createElement(
+	                    _react2.default.createElement(
 	                        'label',
 	                        null,
 	                        'Choice Y'
 	                    ),
-	                    _react2['default'].createElement(
+	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'edit' },
-	                        _react2['default'].createElement(
-	                            _srcPicker2['default'],
+	                        _react2.default.createElement(
+	                            _picker2.default,
 	                            {
 	                                ref: 'carSelection',
 	                                value: [brand, serial],
@@ -273,25 +271,21 @@
 	                                onChange: this._handleCarChange,
 	                                width: '600px'
 	                            },
-	                            _react2['default'].createElement(OptionBox, { value: this.getCarText(brand, serial), onClick: this._handleClickCar })
+	                            _react2.default.createElement(OptionBox, { value: this.getCarText(brand, serial), onClick: this._handleClickCar })
 	                        )
 	                    )
 	                )
 	            );
 	        },
-
 	        _handleClickFruit: function _handleClickFruit(e) {
 	            this.refs.fruitSelection.show();
 	        },
-
 	        _handleFruitChange: function _handleFruitChange(value, text) {
 	            this.setState({ fruit: value });
 	        },
-
 	        _handleClickCar: function _handleClickCar(e) {
 	            this.refs.carSelection.show();
 	        },
-
 	        _handleCarChange: function _handleCarChange(value, text, listIndex) {
 	            var _this = this;
 
@@ -309,7 +303,6 @@
 	                this.setState({ serial: value });
 	            }
 	        },
-
 	        getFruitText: function getFruitText(fruit) {
 	            var fruits = this.state.fruits;
 	            for (var i = 0; i < fruits.length; i++) {
@@ -318,18 +311,16 @@
 	                if (o && o.text && o.value === fruit) return o.text;
 	            }
 	        },
-
 	        getCarSeries: function getCarSeries(brand) {
 	            for (var i = 0; i < Cars.length; i++) {
 	                if (Cars[i].value === brand) return Cars[i].series;
 	            }
 	            return [];
 	        },
-
 	        getCarText: function getCarText(brand, serial) {
-	            var series = undefined,
-	                b = undefined,
-	                s = undefined,
+	            var series = void 0,
+	                b = void 0,
+	                s = void 0,
 	                brands = this.state.brands;
 	            for (var i = 0; i < brands.length; i++) {
 	                if (brands[i].value === brand) {
@@ -340,9 +331,9 @@
 	            }
 
 	            if (!series) return;
-	            for (var i = 0; i < series.length; i++) {
-	                if (series[i].value === serial) {
-	                    s = series[i].text;
+	            for (var _i = 0; _i < series.length; _i++) {
+	                if (series[_i].value === serial) {
+	                    s = series[_i].text;
 	                    break;
 	                }
 	            }
@@ -351,12 +342,12 @@
 	        }
 	    });
 
-	    var Main = _react2['default'].createClass({
+	    var Main = _react2.default.createClass({
 	        displayName: 'Main',
 
 	        propTypes: {
-	            value: _react2['default'].PropTypes.string,
-	            onClick: _react2['default'].PropTypes.func
+	            value: _react2.default.PropTypes.string,
+	            onClick: _react2.default.PropTypes.func
 	        },
 	        getInitialState: function getInitialState() {
 	            return {
@@ -368,18 +359,17 @@
 	                value: nextProps.value
 	            });
 	        },
-
 	        render: function render() {
 
-	            return _react2['default'].createElement(
+	            return _react2.default.createElement(
 	                'div',
 	                { className: 'list-area' },
-	                _react2['default'].createElement(List, { fruit: defaultFruit })
+	                _react2.default.createElement(List, { fruit: defaultFruit })
 	            );
 	        }
 	    });
 
-	    _reactDom2['default'].render(_react2['default'].createElement(Main, null), _es6Dom2['default'].nodeById("page-container"));
+	    _reactDom2.default.render(_react2.default.createElement(Main, null), _es6Dom2.default.nodeById("page-container"));
 	});
 
 /***/ },
@@ -541,11 +531,11 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _react = __webpack_require__(1);
 
@@ -563,19 +553,22 @@
 
 	var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
 
-	var Picker = _react2['default'].createClass({
+	var Picker = _react2.default.createClass({
 	    displayName: 'Picker',
 
+
 	    propTypes: {
-	        value: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.number, _react2['default'].PropTypes.array]).isRequired,
-	        options: _react2['default'].PropTypes.array.isRequired,
-	        onChange: _react2['default'].PropTypes.func,
-	        onShow: _react2['default'].PropTypes.func,
-	        onDismiss: _react2['default'].PropTypes.func,
-	        onClickAway: _react2['default'].PropTypes.func,
-	        width: _react2['default'].PropTypes.string
+	        value: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.number, _react2.default.PropTypes.array]).isRequired,
+	        options: _react2.default.PropTypes.array.isRequired,
+	        onChange: _react2.default.PropTypes.func,
+	        onShow: _react2.default.PropTypes.func,
+	        onDismiss: _react2.default.PropTypes.func,
+	        onClickAway: _react2.default.PropTypes.func,
+	        width: _react2.default.PropTypes.string
 	    },
 
 	    getDefaultProps: function getDefaultProps() {
@@ -583,7 +576,6 @@
 	            onChange: function onChange(value, text, idx) {}
 	        };
 	    },
-
 	    getInitialState: function getInitialState() {
 	        return {
 	            value: this.props.value,
@@ -613,16 +605,16 @@
 	        values.forEach(function (v, idx) {
 	            if (values[idx] !== preValues[idx] || opArr[idx] !== preOpArr[idx]) {
 	                var ops = opArr[idx],
-	                    _top = 0;
+	                    top = 0;
 	                for (var oi = 0; oi < ops.length; oi++) {
 	                    var opv = typeof ops[oi] === 'string' || typeof ops[oi] === 'number' ? ops[oi] : ops[oi].value;
 	                    if (String(opv) === String(v)) {
-	                        _top = oi * opHeight;
+	                        top = oi * opHeight;
 	                        break;
 	                    }
 	                }
 	                var node = _this.refs['list-' + idx];
-	                node.scrollTop = _this.state._scrollStartTop[idx] = _top;
+	                node.scrollTop = _this.state._scrollStartTop[idx] = top;
 	            }
 	        });
 
@@ -631,14 +623,13 @@
 	            options: nextProps.options
 	        });
 	    },
-
 	    componentDidMount: function componentDidMount() {
 	        var _this2 = this;
 
 	        var op = this.refs['op-0-0'],
 	            opHeight = 0;
 	        if (op) {
-	            opHeight = this.state.optionHeight = _reactDom2['default'].findDOMNode(op).clientHeight;
+	            opHeight = this.state.optionHeight = _reactDom2.default.findDOMNode(op).clientHeight;
 	        }
 	        this.state._initValueIndexes.forEach(function (vi, idx) {
 	            if (vi > 0) {
@@ -648,11 +639,9 @@
 	        });
 	    },
 	    componentWillUnmount: function componentWillUnmount() {},
-
 	    value: function value() {
 	        return this.state.value;
 	    },
-
 	    render: function render() {
 	        var _this3 = this;
 
@@ -672,7 +661,7 @@
 	            if (!options) return;
 	            i++;
 	            var j = -1;
-	            return _react2['default'].createElement(
+	            return _react2.default.createElement(
 	                'div',
 	                {
 	                    key: i,
@@ -682,7 +671,7 @@
 	                    style: style,
 	                    onScroll: isBrowser ? _this3._onScroll : undefined
 	                },
-	                _react2['default'].createElement(
+	                _react2.default.createElement(
 	                    'ul',
 	                    null,
 	                    options.map(function (op) {
@@ -692,15 +681,15 @@
 	                                text: op,
 	                                value: op
 	                            };
-	                        } else if (typeof op !== 'object' || !op.text) return;
+	                        } else if ((typeof op === 'undefined' ? 'undefined' : _typeof(op)) !== 'object' || !op.text) return;
 	                        if (!op.value) op.value = '';
 
 	                        if (String(op.value) === String(values[i])) {
 	                            initValueIndexes.push(j);
 	                        }
 
-	                        return _react2['default'].createElement(
-	                            _reactTapper2['default'],
+	                        return _react2.default.createElement(
+	                            _reactTapper2.default,
 	                            { key: j,
 	                                ref: 'op-' + i + '-' + j,
 	                                'data-id': i + '-' + j,
@@ -718,33 +707,32 @@
 	        this.state._initValueIndexes = initValueIndexes;
 
 	        var popupStyle = {};
-	        if (this.props.width && _es6Viewpoint2['default'] && _es6Viewpoint2['default'].width >= 768) {
+	        if (this.props.width && _es6Viewpoint2.default && _es6Viewpoint2.default.width >= 768) {
 	            popupStyle.width = this.props.width;
 	        }
 
-	        return _react2['default'].createElement(
+	        return _react2.default.createElement(
 	            'div',
 	            { className: ["picker", this.props.className].join(' ') },
 	            this.props.children,
-	            _react2['default'].createElement(
+	            _react2.default.createElement(
 	                'div',
 	                { className: ["container", "table", this.props.className, this.state.open ? "show" : undefined].join(' ') },
-	                _react2['default'].createElement(_reactTapper2['default'], { className: 'overlay', onTap: this._handleOverlayTouchTap }),
-	                _react2['default'].createElement(
+	                _react2.default.createElement(_reactTapper2.default, { className: 'overlay', onTap: this._handleOverlayTouchTap }),
+	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'cell' },
-	                    _react2['default'].createElement(
+	                    _react2.default.createElement(
 	                        'div',
 	                        { className: ["popup", this.state.open ? "show" : undefined].join(' '), style: popupStyle },
 	                        lists,
-	                        _react2['default'].createElement('div', { className: 'cover upper' }),
-	                        _react2['default'].createElement('div', { className: 'cover lower' })
+	                        _react2.default.createElement('div', { className: 'cover upper' }),
+	                        _react2.default.createElement('div', { className: 'cover lower' })
 	                    )
 	                )
 	            )
 	        );
 	    },
-
 	    dismiss: function dismiss() {
 	        if (this.state.closeable) {
 	            this._onDismiss();
@@ -760,9 +748,9 @@
 	        }
 	    },
 	    _onShow: function _onShow() {
-	        setTimeout((function () {
+	        setTimeout(function () {
 	            this.state.closeable = true;
-	        }).bind(this), 250);
+	        }.bind(this), 250);
 	        this.setState({ open: true });
 	        this.props.onShow && this.props.onShow();
 	    },
@@ -770,7 +758,6 @@
 	        this.setState({ open: false, loading: false });
 	        this.props.onDismiss && this.props.onDismiss();
 	    },
-
 	    _onPageScroll: function _onPageScroll(e) {},
 	    _onScroll: function _onScroll(e) {
 	        var _this4 = this;
@@ -807,7 +794,7 @@
 	            scrollStartTop[idx] = scrollTop;
 
 	            var opname = 'op-' + idx + '-' + scrollTop / opHeight;
-	            var op = _reactDom2['default'].findDOMNode(_this4.refs[opname]).getAttribute('data-value');
+	            var op = _reactDom2.default.findDOMNode(_this4.refs[opname]).getAttribute('data-value');
 	            if (!op) return;
 	            op = JSON.parse(op);
 
@@ -823,7 +810,6 @@
 	            _this4.props.onChange(op.value, op.text, idx);
 	        }, 250);
 	    },
-
 	    _clickOnOption: function _clickOnOption(e) {
 	        var el = e.target,
 	            value = el.dataset ? el.dataset.id : el.getAttribute('data-id');
@@ -837,11 +823,9 @@
 	        var list = _list;
 	        list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10);
 	    }
-
 	});
 
-	exports['default'] = Picker;
-	module.exports = exports['default'];
+	exports.default = Picker;
 
 /***/ },
 /* 6 */
@@ -1081,7 +1065,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var __TouchSupported = undefined;
+	var __TouchSupported = void 0;
 	var touchSupport = function touchSupport() {
 	    if (typeof __TouchSupported === 'boolean') return __TouchSupported;
 
@@ -1173,6 +1157,8 @@
 	        this.height = 0;
 	        this.colorDepth = 0;
 	        this.pixelDepth = 0;
+
+	        if (typeof window === "undefined") return;
 
 	        if (window && window.screen) {
 	            this.width = window.screen.width;

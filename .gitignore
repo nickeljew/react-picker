@@ -7,8 +7,4 @@ node_modules/*
 
 snapshots/*
 
-examples/react-with-addons-0.14.4.min.js
-
-examples/react-with-addons-0.14.4.js
-
 *.log
