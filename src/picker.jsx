@@ -144,7 +144,7 @@ const Picker = React.createClass({
                                 }
                                 else if ((typeof op !== 'object') || !op.text)
                                     return
-                                if (!op.value)
+                                if (typeof op.value !== 'string' && typeof op.value !== 'number')
                                     op.value = ''
 
                                 if (String(op.value) === String(values[i])) {

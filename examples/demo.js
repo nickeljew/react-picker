@@ -682,7 +682,7 @@
 	                                value: op
 	                            };
 	                        } else if ((typeof op === 'undefined' ? 'undefined' : _typeof(op)) !== 'object' || !op.text) return;
-	                        if (!op.value) op.value = '';
+	                        if (typeof op.value !== 'string' && typeof op.value !== 'number') op.value = '';
 
 	                        if (String(op.value) === String(values[i])) {
 	                            initValueIndexes.push(j);
