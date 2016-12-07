@@ -9,7 +9,7 @@ Picker Component offers a popup options list with responsive layouts.
 	
 ## Snapshots
 
-![PC WEB](http://pub.lvrian.com/react-picker/snapshots/pc-picker.jpg "PC Browser View")
+![PC WEB](http://pub.lvrian.com/react-picker/snapshots/pc-picker-light.jpg "PC Browser View")
 
 ![Mobile WEB](http://pub.lvrian.com/react-picker/snapshots/mobile-picker.jpg "Mobile Browser View")
 
