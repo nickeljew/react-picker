@@ -5,15 +5,23 @@
 
 
   >.container {
-    position: fixed;
+    position: relative;
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     z-index: 100;
-    top: 0;
+    top: 1px;
     left: -10000px;
-    width: 100%;
-    height: 100%;
+    //width: 100%;
+    //height: 100%;
     @include transition(left 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms);
+
+    @media screen and (max-width: 767px) {
+      position: fixed;
+      top: 0;
+      left: -10000px;
+      width: 100%;
+      height: 100%;
+    }
 
     &.table {
       display: table;
@@ -22,19 +30,23 @@
     &.show {
       left: 0;
       @include transition(left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms);
+
+      .overlay {
+        left: 0;
+      }
     }
 
     .overlay {
-      position: absolute;
+      position: fixed;
       height: 100%;
       width: 100%;
       z-index: 9;
       top: 0;
-      left: 0;
+      left: -10000px;
       opacity: 1;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       will-change: opacity;
-      background-color: rgba(0, 0, 0, 0.541176);
+      //background-color: rgba(0, 0, 0, 0.541176);
       @include transform(translateZ(0));
       @include transition(left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms);
 
@@ -56,6 +68,7 @@
     }
 
     $popup-offset-y: 64px;
+    $pupup-width: 20rem;
     $option-height: 3.4rem;
     $visible-num: 7;
     $options-half-height: ($visible-num - 1) / 2 * $option-height;
@@ -64,33 +77,34 @@
     $mobi-options-bottom-height: ($mobi-visible-num - 3) * $option-height;
 
     .popup {
-      position: relative;
+      position: absolute;
       box-sizing: border-box;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       @include transition(all 450ms cubic-bezier(0.23, 1, 0.32, 1));
-      width: 75%;
-      height: $option-height * $visible-num;
-      max-width: 95%;
+      //width: 75%;
+      //max-width: 95%;
       margin: 0 auto;
       z-index: 10;
       font-size: 1.2rem;
-      color: #fff;
-      background-color: rgba(50, 50, 50, 0.96);
+      //color: #fff;
+      //background-color: rgba(50, 50, 50, 0.96);
       opacity: 0;
 
       @media screen and (max-width: 767px) {
+        bottom: 0;
         width: 100%;
         max-width: 100%;
         height: $option-height * $mobi-visible-num;
         @include transform( translate3d(0, $option-height * $mobi-visible-num, 0) );
       }
       @media screen and (min-width: 768px) {
+        height: $option-height * $visible-num;
+        width: $pupup-width;
         @include transform( translate3d(0, -($popup-offset-y), 0) );
       }
 
       &.show {
         opacity: 1;
-        top: 0;
         @include transform( translate3d(0, 0, 0) );
       }
 
@@ -142,14 +156,14 @@
         left: 0;
         right: 0;
         height: $options-half-height;
-        background-color: rgba(50, 50, 50, 0.72);
+        //background-color: rgba(50, 50, 50, 0.72);
         box-sizing: border-box;
         z-index: 12;
         pointer-events: none; //IMPORTANT to let all events pass through
 
         &.upper {
           top: 0;
-          border-bottom: 1px solid rgba(85, 85, 85, 0.9);
+          //border-bottom: 1px solid rgba(85, 85, 85, 0.9);
 
           @media screen and (max-width: 767px) {
             height: $mobi-options-top-height;
@@ -157,15 +171,59 @@
         }
         &.lower {
           bottom: 0;
-          border-top: 1px solid rgba(85, 85, 85, 0.9);
+          //border-top: 1px solid rgba(85, 85, 85, 0.9);
 
           @media screen and (max-width: 767px) {
             height: $mobi-options-bottom-height;
           }
         }
       }
-    }
-  }
+
+
+      &.light {
+        color: #666;
+        background-color: rgba(255, 255, 255, 0.96);
+
+        @media screen and (max-width: 767px) {
+          border-top: 1px solid #ccc;
+          box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.08);
+        }
+        @media screen and (min-width: 768px) {
+          border: 1px solid #ccc;
+          box-shadow: 0 1px 5px #ddd;
+        }
+
+        >.cover {
+          background-color: rgba(240, 240, 240, 0.7);
+
+          &.upper {
+            border-bottom: 1px solid #ccc;
+          }
+          &.lower {
+            border-top: 1px solid #ccc;
+          }
+        }
+      }
+
+      &.dark {
+        color: #fff;
+        background-color: rgba(50, 50, 50, 0.96);
+
+        >.cover {
+          background-color: rgba(50, 50, 50, 0.72);
+
+          &.upper {
+            border-bottom: 1px solid rgba(85, 85, 85, 0.9);
+          }
+          &.lower {
+            border-top: 1px solid rgba(85, 85, 85, 0.9);
+          }
+        }
+      }
+
+    } //.popup
+
+  } //.container
 
 
 }

@@ -269,7 +269,8 @@
 	                                value: [brand, serial],
 	                                options: [this.state.brands, this.state.series],
 	                                onChange: this._handleCarChange,
-	                                width: '600px'
+	                                width: '600px',
+	                                theme: 'dark'
 	                            },
 	                            _react2.default.createElement(OptionBox, { value: this.getCarText(brand, serial), onClick: this._handleClickCar })
 	                        )
@@ -535,7 +536,7 @@
 	    value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _react = __webpack_require__(1);
 
@@ -568,12 +569,14 @@
 	        onShow: _react2.default.PropTypes.func,
 	        onDismiss: _react2.default.PropTypes.func,
 	        onClickAway: _react2.default.PropTypes.func,
-	        width: _react2.default.PropTypes.string
+	        width: _react2.default.PropTypes.string,
+	        theme: _react2.default.PropTypes.string
 	    },
 
 	    getDefaultProps: function getDefaultProps() {
 	        return {
-	            onChange: function onChange(value, text, idx) {}
+	            onChange: function onChange(value, text, idx) {},
+	            theme: 'light'
 	        };
 	    },
 	    getInitialState: function getInitialState() {
@@ -724,7 +727,7 @@
 	                    { className: 'cell' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: ["popup", this.state.open ? "show" : undefined].join(' '), style: popupStyle },
+	                        { className: ["popup", this.props.theme, this.state.open ? "show" : undefined].join(' '), style: popupStyle },
 	                        lists,
 	                        _react2.default.createElement('div', { className: 'cover upper' }),
 	                        _react2.default.createElement('div', { className: 'cover lower' })
@@ -1003,8 +1006,20 @@
 
 	        this.setState(this.getInitialState());
 	    },
+	    touchCancel: function touchCancel(ev) {
+	        this.setState(this.getInitialState());
+	    },
 	    _handleClick: function _handleClick(ev) {
-	        !this.touchable && this._handleTap(ev);
+	        var _this = this;
+
+	        //!this.touchable && this._handleTap(ev)
+	        if (this.state.start === 0) {
+	            this._handleTap(ev);
+	        } else {
+	            setTimeout(function () {
+	                _this.state.start === 0 && _this._handleTap(ev);
+	            }, 300);
+	        }
 	    },
 	    _handleTap: function _handleTap(ev) {
 	        this.props.onTap && this.props.onTap(ev);
@@ -1014,6 +1029,7 @@
 	            onTouchStart: this.touchStart,
 	            onTouchMove: this.touchMove,
 	            onTouchEnd: this.touchEnd,
+	            onTouchCancel: this.touchCancel,
 	            onClick: this._handleClick
 	        };
 	    },
@@ -1026,9 +1042,9 @@
 	        var newComponentProps = _extends({}, props, {
 	            style: style,
 	            className: props.className,
-	            disabled: props.disabled,
-	            handlers: this.handlers
-	        }, this.handlers());
+	            disabled: props.disabled
+	        }, //handlers: this.handlers
+	        this.handlers());
 
 	        delete newComponentProps.onTap;
 	        delete newComponentProps.onPress;
@@ -1041,6 +1057,9 @@
 	        delete newComponentProps.preventDefault;
 	        delete newComponentProps.stopPropagation;
 	        delete newComponentProps.component;
+	        delete newComponentProps.flickThreshold;
+	        delete newComponentProps.delta;
+	        //delete newComponentProps.handlers;
 
 	        return _react2.default.createElement(props.component, newComponentProps, props.children);
 	    }

@@ -1,3 +1,20 @@
+/**
+ * Month-Picker
+ *
+ * Properties:
+ * @value: Default selected option value
+ * @options: Options of the picker
+ * @onChange: callback on changing selected option
+ * @onShow: callback on calling show method
+ * @onDismiss: callback on calling dismiss method
+ * @onClickAway: callback on clicking area outside the picker panel
+ * @width: width of the picker panel
+ * @theme: theme setting of month-picker; 2 options (light/dark); default theme is light
+ */
+
+
+
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Tappable from 'react-tapper'
@@ -17,11 +34,13 @@ const Picker = React.createClass({
         , onDismiss: React.PropTypes.func
         , onClickAway: React.PropTypes.func
         , width: React.PropTypes.string
+        , theme: React.PropTypes.string
     }
 
     , getDefaultProps () {
         return {
             onChange(value, text, idx) {}
+            , theme: 'light'
         }
     }
 
@@ -182,7 +201,7 @@ const Picker = React.createClass({
                 <div className={["container", "table", this.props.className, (this.state.open ? "show" : undefined)].join(' ')}>
                     <Tappable  className="overlay" onTap={this._handleOverlayTouchTap} />
                     <div className="cell">
-                        <div className={["popup", (this.state.open ? "show" : undefined)].join(' ')} style={popupStyle}>
+                        <div className={["popup", this.props.theme, (this.state.open ? "show" : undefined)].join(' ')} style={popupStyle}>
                             {lists}
                             <div className="cover upper"/>
                             <div className="cover lower"/>

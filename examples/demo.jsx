@@ -204,7 +204,6 @@ DocReady(function() {
                                 value={fruit}
                                 options={this.state.fruits}
                                 onChange={this._handleFruitChange}
-                                width="250px"
                                 >
                                 <OptionBox value={this.getFruitText(fruit)} onClick={this._handleClickFruit} />
                             </Picker>
@@ -219,6 +218,7 @@ DocReady(function() {
                                 options={[this.state.brands, this.state.series]}
                                 onChange={this._handleCarChange}
                                 width="600px"
+                                theme="dark"
                                 >
                                 <OptionBox value={this.getCarText(brand, serial)} onClick={this._handleClickCar} />
                             </Picker>

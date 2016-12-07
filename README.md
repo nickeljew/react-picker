@@ -73,13 +73,21 @@ SCSS: 1) import bourbon library (http://bourbon.io/), 2) import scss/picker.scss
 
 #### Properites
 
-- @value: Default selected option value
-- @options: Options of the picker
-- @onChange: callback on changing selected option
-- @onShow: callback on calling show method
-- @onDismiss: callback on calling dismiss method
-- @onClickAway: callback on clicking area outside the picker panel
-- @width: width of the picker panel
+@value: Default selected option value
+
+@options: Options of the picker
+
+@onChange: callback on changing selected option
+
+@onShow: callback on calling show method
+
+@onDismiss: callback on calling dismiss method
+
+@onClickAway: callback on clicking area outside the picker panel
+
+@width: width of the picker panel
+
+@theme: theme setting of month-picker; 2 options (light/dark); default theme is light
 
 
 ## License
