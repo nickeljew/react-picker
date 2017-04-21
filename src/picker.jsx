@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Month-Picker
  *
@@ -15,7 +17,8 @@
 
 
 
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Tappable from 'react-tapper'
 import ViewPoint from 'es6-viewpoint'
@@ -24,28 +27,11 @@ import ViewPoint from 'es6-viewpoint'
 const isBrowser = (typeof window !== "undefined" && typeof document !== "undefined")
 
 
-const Picker = React.createClass({
+class Picker extends Component {
+    constructor(props, context) {
+        super(props, context)
 
-    propTypes: {
-        value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.array]).isRequired
-        , options: React.PropTypes.array.isRequired
-        , onChange: React.PropTypes.func
-        , onShow: React.PropTypes.func
-        , onDismiss: React.PropTypes.func
-        , onClickAway: React.PropTypes.func
-        , width: React.PropTypes.string
-        , theme: React.PropTypes.string
-    }
-
-    , getDefaultProps () {
-        return {
-            onChange(value, text, idx) {}
-            , theme: 'light'
-        }
-    }
-
-    , getInitialState () {
-        return {
+        this.state = {
             value: this.props.value
             , options: this.props.options
             , open: false
@@ -55,8 +41,14 @@ const Picker = React.createClass({
             , _scrollTimer: undefined
             , closeable: false
         }
+
+        this._handleOverlayTouchTap = this._handleOverlayTouchTap.bind(this)
+        this._onPageScroll = this._onPageScroll.bind(this)
+        this._onScroll = this._onScroll.bind(this)
+        this._clickOnOption = this._clickOnOption.bind(this)
     }
-    , componentWillReceiveProps(nextProps){
+
+    componentWillReceiveProps(nextProps){
         //if ( Array.isArray(nextProps.value) ) {
         //    nextProps.value.forEach((v, idx) => {
         //        if (this.state.options[idx] && this.state.options[idx] !== nextProps.options[idx]) {
@@ -100,8 +92,7 @@ const Picker = React.createClass({
         })
     }
 
-    //, optionHeight: 0
-    , componentDidMount () {
+    componentDidMount () {
         let op = this.refs['op-0-0']
             , opHeight = 0
         if (op) {
@@ -115,15 +106,16 @@ const Picker = React.createClass({
         })
         //window.addEventListener('scroll', this._onPageScroll)
     }
-    , componentWillUnmount () {
+
+    componentWillUnmount () {
         //window.removeEventListener('scroll', this._onPageScroll)
     }
 
-    , value() {
+    value() {
         return this.state.value
     }
 
-    , render() {
+    render() {
 
         let values = this.state.value
             , __options = this.state.options
@@ -150,7 +142,7 @@ const Picker = React.createClass({
                     className="list-wrap"
                     style={style}
                     onScroll={isBrowser ? this._onScroll : undefined}
-                    >
+                >
                     <ul>
                         {
                             options.map((op) => {
@@ -177,7 +169,7 @@ const Picker = React.createClass({
                                               data-value={JSON.stringify(op)}
                                               component="li"
                                               onTap={this._clickOnOption}
-                                        >
+                                    >
                                         {op.text}
                                     </Tappable>
                                 )
@@ -212,34 +204,34 @@ const Picker = React.createClass({
         )
     }
 
-    , dismiss() {
+    dismiss() {
         if (this.state.closeable) {
             this._onDismiss()
         }
     }
-    , show() {
+    show() {
         // prevent rapid show/hide
         this._onShow()
     }
-    ,  _handleOverlayTouchTap() {
+    _handleOverlayTouchTap() {
         if (this.state.closeable) {
             this._onDismiss()
             this.props.onClickAway && this.props.onClickAway()
         }
     }
-    , _onShow() {
+    _onShow() {
         setTimeout(function(){ this.state.closeable = true }.bind(this), 250)
         this.setState({ open: true })
         this.props.onShow && this.props.onShow()
     }
-    , _onDismiss() {
+    _onDismiss() {
         this.setState({ open: false, loading: false })
         this.props.onDismiss && this.props.onDismiss()
     }
 
-    , _onPageScroll(e) {
+    _onPageScroll(e) {
     }
-    , _onScroll(e) {
+    _onScroll(e) {
         let el = e.target
             , idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10)
             , opHeight = this.state.optionHeight
@@ -293,7 +285,7 @@ const Picker = React.createClass({
         }, 250)
     }
 
-    , _clickOnOption(e) {
+    _clickOnOption(e) {
         let el = e.target
             , value = el.dataset ? el.dataset.id : el.getAttribute('data-id')
         if ( ! value )
@@ -309,7 +301,25 @@ const Picker = React.createClass({
         let list = _list //div, ReactDOM.findDOMNode(_list)
         list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10)
     }
+}
 
-})
+
+Picker.propTypes = {
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).isRequired
+    , options: PropTypes.array.isRequired
+    , onChange: PropTypes.func
+    , onShow: PropTypes.func
+    , onDismiss: PropTypes.func
+    , onClickAway: PropTypes.func
+    , width: PropTypes.string
+    , theme: PropTypes.string
+}
+Picker.defaultProps = {
+    onChange(value, text, idx) {}
+    , theme: 'light'
+}
+
+
+
 
 export default Picker

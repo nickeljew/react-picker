@@ -1,31 +1,35 @@
-import React from 'react'
+'use strict';
+
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import DocReady from 'es6-docready'
 import Dom from 'es6-dom'
-import Picker from '../src/picker'
+import Picker from 'picker'
 
     
     
 
 DocReady(function() {
 
-    let OptionBox = React.createClass({
-        propTypes: {
-            value: React.PropTypes.string
-            , onClick: React.PropTypes.func
-        }
-        , getInitialState() {
-            return {
+    class OptionBox extends Component {
+        constructor(props, context) {
+            super(props, context)
+
+            this.state = {
                 value: this.props.value || 'N/A'
             }
+
+            this._handleClick = this._handleClick.bind(this)
         }
-        , componentWillReceiveProps(nextProps){
+
+        componentWillReceiveProps(nextProps){
             this.setState({
                 value: nextProps.value || 'N/A'
             })
         }
 
-        , render() {
+        render() {
 
             return (
                 <div className="box" onClick={this._handleClick}>
@@ -34,10 +38,17 @@ DocReady(function() {
             )
         }
 
-        , _handleClick(e) {
+        _handleClick(e) {
             this.props.onClick && this.props.onClick(e)
         }
-    })
+    }
+
+
+    OptionBox.propTypes = {
+        value: PropTypes.string
+        , onClick: PropTypes.func
+    }
+    OptionBox.defaultProps = {}
 
 
 
@@ -155,21 +166,11 @@ DocReady(function() {
 
 
 
-    let List = React.createClass({
-        propTypes: {
-            fruit: React.PropTypes.string
-            , brand: React.PropTypes.string
-            , serial: React.PropTypes.string
-        }
-        , getDefaultProps () {
-            return {
-                brand: Cars[0].value
-                , brand: '1002'
-                , serial: '100203'
-            }
-        }
-        , getInitialState() {
-            return {
+    class List extends Component {
+        constructor(props, context) {
+            super(props, context)
+
+            this.state = {
                 fruit: this.props.fruit
                 , brand: this.props.brand
                 , serial: this.props.serial
@@ -177,8 +178,14 @@ DocReady(function() {
                 , brands: Cars
                 , series: this.getCarSeries(this.props.brand)
             }
+
+            this._handleClickFruit = this._handleClickFruit.bind(this)
+            this._handleFruitChange = this._handleFruitChange.bind(this)
+            this._handleClickCar = this._handleClickCar.bind(this)
+            this._handleCarChange = this._handleCarChange.bind(this)
         }
-        , componentWillReceiveProps(nextProps){
+
+        componentWillReceiveProps(nextProps){
             this.setState({
                 fruit: nextProps.fruit
                 , brand: nextProps.brand
@@ -186,9 +193,9 @@ DocReady(function() {
             })
         }
 
-        , componentDidMount () {}
+        componentDidMount () {}
 
-        , render() {
+        render() {
 
             let fruit = this.state.fruit
                 , brand = this.state.brand
@@ -204,7 +211,7 @@ DocReady(function() {
                                 value={fruit}
                                 options={this.state.fruits}
                                 onChange={this._handleFruitChange}
-                                >
+                            >
                                 <OptionBox value={this.getFruitText(fruit)} onClick={this._handleClickFruit} />
                             </Picker>
                         </div>
@@ -219,7 +226,7 @@ DocReady(function() {
                                 onChange={this._handleCarChange}
                                 width="600px"
                                 theme="dark"
-                                >
+                            >
                                 <OptionBox value={this.getCarText(brand, serial)} onClick={this._handleClickCar} />
                             </Picker>
                         </div>
@@ -228,19 +235,19 @@ DocReady(function() {
             )
         }
 
-        , _handleClickFruit(e) {
+        _handleClickFruit(e) {
             this.refs.fruitSelection.show()
         }
 
-        , _handleFruitChange(value, text) {
+        _handleFruitChange(value, text) {
             this.setState({fruit: value})
         }
 
-        , _handleClickCar(e) {
+        _handleClickCar(e) {
             this.refs.carSelection.show()
         }
 
-        , _handleCarChange(value, text, listIndex) {
+        _handleCarChange(value, text, listIndex) {
             if (listIndex === 0) {
                 window.clearTimeout( this._updateCarTimer )
                 this._updateCarTimer = window.setTimeout( () => {
@@ -257,7 +264,7 @@ DocReady(function() {
             }
         }
 
-        , getFruitText(fruit) {
+        getFruitText(fruit) {
             let fruits = this.state.fruits
             for (let i = 0; i < fruits.length; i++) {
                 let o = fruits[i]
@@ -268,7 +275,7 @@ DocReady(function() {
             }
         }
 
-        , getCarSeries(brand) {
+        getCarSeries(brand) {
             for (let i = 0; i < Cars.length; i++) {
                 if (Cars[i].value === brand)
                     return Cars[i].series
@@ -276,7 +283,7 @@ DocReady(function() {
             return []
         }
 
-        , getCarText(brand, serial) {
+        getCarText(brand, serial) {
             let series, b, s, brands = this.state.brands
             for (let i = 0; i < brands.length; i++) {
                 if (brands[i].value === brand) {
@@ -297,31 +304,41 @@ DocReady(function() {
 
             return (b && s) ? `${b} - ${s}` : undefined
         }
-    })
+    }
+
+
+    List.propTypes = {
+        fruit: PropTypes.string
+        , brand: PropTypes.string
+        , serial: PropTypes.string
+    }
+    List.defaultProps = {
+        //brand: Cars[0].value
+        brand: '1002'
+        , serial: '100203'
+    }
 
 
 
 
 
 
+    class Main extends Component {
+        constructor(props, context) {
+            super(props, context)
 
-    let Main = React.createClass({
-        propTypes: {
-            value: React.PropTypes.string
-            , onClick: React.PropTypes.func
-        }
-        , getInitialState() {
-            return {
+            this.state = {
                 value: this.props.value
             }
         }
-        , componentWillReceiveProps(nextProps){
+
+        componentWillReceiveProps(nextProps){
             this.setState({
                 value: nextProps.value
             })
         }
 
-        , render() {
+        render() {
 
             return (
                 <div className="list-area">
@@ -329,7 +346,13 @@ DocReady(function() {
                 </div>
             )
         }
-    })
+    }
+
+
+    Main.propTypes = {
+        value: PropTypes.string
+        , onClick: PropTypes.func
+    }
 
 
 

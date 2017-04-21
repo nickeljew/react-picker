@@ -3,6 +3,11 @@
 Picker Component offers a popup options list with responsive layouts.
 
 
+## Changelogs
+#### v"1.2.7
+- Update for react v15.5.x
+
+
 ## Installation
 
 	npm install react-picker --save
