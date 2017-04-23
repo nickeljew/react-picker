@@ -14,6 +14,7 @@
     //width: 100%;
     //height: 100%;
     @include transition(left 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms);
+    //background-color: rgba(47, 22, 86, 0.79);
 
     @media screen and (max-width: 767px) {
       position: fixed;
@@ -57,14 +58,14 @@
 
     .cell {
       display: table-cell;
-      vertical-align: middle;
+      //vertical-align: middle;
       box-sizing: border-box;
       width: 100%;
       height: 100%;
 
-      @media screen and (max-width: 767px) {
-        vertical-align: bottom;
-      }
+      //@media screen and (max-width: 767px) {
+      //  vertical-align: bottom;
+      //}
     }
 
     $popup-offset-y: 64px;

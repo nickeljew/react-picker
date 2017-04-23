@@ -4,6 +4,10 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Changelogs
+## Changelogs
+#### v1.2.8
+- Added .npmignore
+
 #### v1.2.7
 - Update for react v15.5.x
 

@@ -102,13 +102,9 @@ ul, li {
           background-color: rgba(0, 0, 0, 0.25); } }
     .picker > .container .cell {
       display: table-cell;
-      vertical-align: middle;
       box-sizing: border-box;
       width: 100%;
       height: 100%; }
-      @media screen and (max-width: 767px) {
-        .picker > .container .cell {
-          vertical-align: bottom; } }
     .picker > .container .popup {
       position: absolute;
       box-sizing: border-box;

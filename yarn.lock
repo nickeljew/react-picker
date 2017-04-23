@@ -2600,9 +2600,9 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-tapper@^0.1.13:
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/react-tapper/-/react-tapper-0.1.13.tgz#0a31ba3a60e1393970eddad79c30513479f57175"
+react-tapper@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/react-tapper/-/react-tapper-0.1.14.tgz#08f427e8df23de02e95c2476758f3634fc4d2b32"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
