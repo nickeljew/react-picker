@@ -4,7 +4,9 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Changelogs
-## Changelogs
+#### v1.2.9
+- Upgrade babel-loader & update readme
+
 #### v1.2.8
 - Added .npmignore
 
@@ -13,6 +15,9 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Installation
+
+	yarn add react-picker
+or
 
 	npm install react-picker --save
 	
