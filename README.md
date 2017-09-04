@@ -4,6 +4,9 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Changelogs
+#### v1.2.10
+- Update demo link in readme
+
 #### v1.2.9
 - Upgrade babel-loader & update readme
 
@@ -29,7 +32,7 @@ or
 
 ## Demo
 
-[Online Demo](http://pub.lvrian.com/react-picker/demo.html)
+[Online Demo](http://pub.lvrian.com/react-picker/examples/demo.html)
 
 Demo file in repository: ./examples/demo.html
 
