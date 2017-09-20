@@ -4,6 +4,9 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Changelogs
+#### v1.2.11
+- Update react-tapper to 0.1.15; update dependencies
+
 #### v1.2.10
 - Update demo link in readme
 

@@ -27,7 +27,22 @@ import ViewPoint from 'es6-viewpoint'
 const isBrowser = (typeof window !== "undefined" && typeof document !== "undefined")
 
 
-class Picker extends Component {
+export default class Picker extends Component {
+    static propTypes = {
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).isRequired
+        , options: PropTypes.array.isRequired
+        , onChange: PropTypes.func
+        , onShow: PropTypes.func
+        , onDismiss: PropTypes.func
+        , onClickAway: PropTypes.func
+        , width: PropTypes.string
+        , theme: PropTypes.string
+    }
+    static defaultProps = {
+        onChange(value, text, idx) {}
+        , theme: 'light'
+    }
+
     constructor(props, context) {
         super(props, context)
 
@@ -302,24 +317,3 @@ class Picker extends Component {
         list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10)
     }
 }
-
-
-Picker.propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]).isRequired
-    , options: PropTypes.array.isRequired
-    , onChange: PropTypes.func
-    , onShow: PropTypes.func
-    , onDismiss: PropTypes.func
-    , onClickAway: PropTypes.func
-    , width: PropTypes.string
-    , theme: PropTypes.string
-}
-Picker.defaultProps = {
-    onChange(value, text, idx) {}
-    , theme: 'light'
-}
-
-
-
-
-export default Picker

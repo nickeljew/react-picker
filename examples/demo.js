@@ -33,9 +33,6 @@
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -63,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = PropTypes;
+module.exports = React;
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = React;
+module.exports = PropTypes;
 
 /***/ }),
 /* 2 */
@@ -91,510 +88,13 @@ module.exports = ReactDOM;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(0);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactDom = __webpack_require__(2);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactTapper = __webpack_require__(9);
-
-var _reactTapper2 = _interopRequireDefault(_reactTapper);
-
-var _es6Viewpoint = __webpack_require__(7);
-
-var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
-
-var Picker = function (_Component) {
-    _inherits(Picker, _Component);
-
-    function Picker(props, context) {
-        _classCallCheck(this, Picker);
-
-        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props, context));
-
-        _this.state = {
-            value: _this.props.value,
-            options: _this.props.options,
-            open: false,
-            optionHeight: 0,
-            _scrollStartTop: [],
-            _initValueIndexes: [],
-            _scrollTimer: undefined,
-            closeable: false
-        };
-
-        _this._handleOverlayTouchTap = _this._handleOverlayTouchTap.bind(_this);
-        _this._onPageScroll = _this._onPageScroll.bind(_this);
-        _this._onScroll = _this._onScroll.bind(_this);
-        _this._clickOnOption = _this._clickOnOption.bind(_this);
-        return _this;
-    }
-
-    _createClass(Picker, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            var _this2 = this;
-
-            var values = nextProps.value,
-                opArr = nextProps.options,
-                preValues = this.state.value,
-                preOpArr = this.state.options,
-                opHeight = this.state.optionHeight;
-            if (!Array.isArray(values)) {
-                values = [values];
-                opArr = [opArr];
-                preValues = [preValues];
-                preOpArr = [preOpArr];
-            }
-            values.forEach(function (v, idx) {
-                if (values[idx] !== preValues[idx] || opArr[idx] !== preOpArr[idx]) {
-                    var ops = opArr[idx],
-                        top = 0;
-                    for (var oi = 0; oi < ops.length; oi++) {
-                        var opv = typeof ops[oi] === 'string' || typeof ops[oi] === 'number' ? ops[oi] : ops[oi].value;
-                        if (String(opv) === String(v)) {
-                            top = oi * opHeight;
-                            break;
-                        }
-                    }
-                    var node = _this2.refs['list-' + idx];
-                    node.scrollTop = _this2.state._scrollStartTop[idx] = top;
-                }
-            });
-
-            this.setState({
-                value: nextProps.value,
-                options: nextProps.options
-            });
-        }
-    }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this3 = this;
-
-            var op = this.refs['op-0-0'],
-                opHeight = 0;
-            if (op) {
-                opHeight = this.state.optionHeight = _reactDom2.default.findDOMNode(op).clientHeight;
-            }
-            this.state._initValueIndexes.forEach(function (vi, idx) {
-                if (vi > 0) {
-                    var node = _this3.refs['list-' + idx];
-                    node.scrollTop = _this3.state._scrollStartTop[idx] = vi * opHeight;
-                }
-            });
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {}
-    }, {
-        key: 'value',
-        value: function value() {
-            return this.state.value;
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this4 = this;
-
-            var values = this.state.value,
-                __options = this.state.options;
-            if (!Array.isArray(values)) {
-                values = [values];
-                __options = [__options];
-            }
-
-            var initValueIndexes = [];
-            var style = {
-                width: 100 / __options.length + '%'
-            };
-            var i = -1;
-            var lists = __options.map(function (options) {
-                if (!options) return;
-                i++;
-                var j = -1;
-                return _react2.default.createElement(
-                    'div',
-                    {
-                        key: i,
-                        ref: 'list-' + i,
-                        'data-id': i,
-                        className: 'list-wrap',
-                        style: style,
-                        onScroll: isBrowser ? _this4._onScroll : undefined
-                    },
-                    _react2.default.createElement(
-                        'ul',
-                        null,
-                        options.map(function (op) {
-                            j++;
-                            if (typeof op === 'string' || typeof op === 'number') {
-                                op = {
-                                    text: op,
-                                    value: op
-                                };
-                            } else if ((typeof op === 'undefined' ? 'undefined' : _typeof(op)) !== 'object' || !op.text) return;
-                            if (typeof op.value !== 'string' && typeof op.value !== 'number') op.value = '';
-
-                            if (String(op.value) === String(values[i])) {
-                                initValueIndexes.push(j);
-                            }
-
-                            return _react2.default.createElement(
-                                _reactTapper2.default,
-                                { key: j,
-                                    ref: 'op-' + i + '-' + j,
-                                    'data-id': i + '-' + j,
-                                    'data-value': JSON.stringify(op),
-                                    component: 'li',
-                                    onTap: _this4._clickOnOption
-                                },
-                                op.text
-                            );
-                        })
-                    )
-                );
-            });
-
-            this.state._initValueIndexes = initValueIndexes;
-
-            var popupStyle = {};
-            if (this.props.width && _es6Viewpoint2.default && _es6Viewpoint2.default.width >= 768) {
-                popupStyle.width = this.props.width;
-            }
-
-            return _react2.default.createElement(
-                'div',
-                { className: ["picker", this.props.className].join(' ') },
-                this.props.children,
-                _react2.default.createElement(
-                    'div',
-                    { className: ["container", "table", this.props.className, this.state.open ? "show" : undefined].join(' ') },
-                    _react2.default.createElement(_reactTapper2.default, { className: 'overlay', onTap: this._handleOverlayTouchTap }),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'cell' },
-                        _react2.default.createElement(
-                            'div',
-                            { className: ["popup", this.props.theme, this.state.open ? "show" : undefined].join(' '), style: popupStyle },
-                            lists,
-                            _react2.default.createElement('div', { className: 'cover upper' }),
-                            _react2.default.createElement('div', { className: 'cover lower' })
-                        )
-                    )
-                )
-            );
-        }
-    }, {
-        key: 'dismiss',
-        value: function dismiss() {
-            if (this.state.closeable) {
-                this._onDismiss();
-            }
-        }
-    }, {
-        key: 'show',
-        value: function show() {
-            this._onShow();
-        }
-    }, {
-        key: '_handleOverlayTouchTap',
-        value: function _handleOverlayTouchTap() {
-            if (this.state.closeable) {
-                this._onDismiss();
-                this.props.onClickAway && this.props.onClickAway();
-            }
-        }
-    }, {
-        key: '_onShow',
-        value: function _onShow() {
-            setTimeout(function () {
-                this.state.closeable = true;
-            }.bind(this), 250);
-            this.setState({ open: true });
-            this.props.onShow && this.props.onShow();
-        }
-    }, {
-        key: '_onDismiss',
-        value: function _onDismiss() {
-            this.setState({ open: false, loading: false });
-            this.props.onDismiss && this.props.onDismiss();
-        }
-    }, {
-        key: '_onPageScroll',
-        value: function _onPageScroll(e) {}
-    }, {
-        key: '_onScroll',
-        value: function _onScroll(e) {
-            var _this5 = this;
-
-            var el = e.target,
-                idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10),
-                opHeight = this.state.optionHeight,
-                scrollStartTop = this.state._scrollStartTop;
-
-            window.clearTimeout(this.state._scrollTimer);
-            this.state._scrollTimer = window.setTimeout(function () {
-                if (typeof scrollStartTop[idx] !== 'number') scrollStartTop[idx] = 0;
-                if (scrollStartTop[idx] === el.scrollTop) return;
-
-                var scrollTop = el.scrollTop,
-                    mod = scrollTop % opHeight,
-                    percent = mod / opHeight;
-
-                var toLowerItem = function toLowerItem() {
-                    var diff = opHeight - mod;
-                    scrollTop += diff;
-                    el.scrollTop += diff;
-                };
-                var toUpperItem = function toUpperItem() {
-                    scrollTop -= mod;
-                    el.scrollTop -= mod;
-                };
-
-                if (scrollTop > scrollStartTop[idx]) {
-                    percent > 0.46 ? toLowerItem() : toUpperItem();
-                } else {
-                    percent < 0.64 ? toUpperItem() : toLowerItem();
-                }
-                scrollStartTop[idx] = scrollTop;
-
-                var opname = 'op-' + idx + '-' + scrollTop / opHeight;
-                var op = _reactDom2.default.findDOMNode(_this5.refs[opname]).getAttribute('data-value');
-                if (!op) return;
-                op = JSON.parse(op);
-
-                var value = _this5.state.value;
-                if (Array.isArray(value)) {
-                    value[idx] = op.value;
-                } else {
-                    value = op.value;
-                }
-                _this5.setState({
-                    value: value
-                });
-                _this5.props.onChange(op.value, op.text, idx);
-            }, 250);
-        }
-    }, {
-        key: '_clickOnOption',
-        value: function _clickOnOption(e) {
-            var el = e.target,
-                value = el.dataset ? el.dataset.id : el.getAttribute('data-id');
-            if (!value) return;
-
-            var arr = value.split('-');
-            if (arr.length < 2) return;
-
-            var _list = this.refs['list-' + arr[0]];
-            if (!_list) return;
-            var list = _list;
-            list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10);
-        }
-    }]);
-
-    return Picker;
-}(_react.Component);
-
-Picker.propTypes = {
-    value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number, _propTypes2.default.array]).isRequired,
-    options: _propTypes2.default.array.isRequired,
-    onChange: _propTypes2.default.func,
-    onShow: _propTypes2.default.func,
-    onDismiss: _propTypes2.default.func,
-    onClickAway: _propTypes2.default.func,
-    width: _propTypes2.default.string,
-    theme: _propTypes2.default.string
-};
-Picker.defaultProps = {
-    onChange: function onChange(value, text, idx) {},
-    theme: 'light'
-};
-
-exports.default = Picker;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports["default"] = docReady;
-
-function docReady(callback) {
-
-    function completed() {
-        document.removeEventListener("DOMContentLoaded", completed, false);
-        window.removeEventListener("load", completed, false);
-        callback();
-    }
-
-    //Events.on(document, 'DOMContentLoaded', completed)
-
-    if (document.readyState === "complete") {
-        // Handle it asynchronously to allow scripts the opportunity to delay ready
-        setTimeout(callback);
-    } else {
-
-        // Use the handy event callback
-        document.addEventListener("DOMContentLoaded", completed, false);
-
-        // A fallback to window.onload, that will always work
-        window.addEventListener("load", completed, false);
-    }
-}
-
-module.exports = exports["default"];
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-var dom = {
-
-    isDescendant: function isDescendant(parent, child) {
-        var node = child.parentNode;
-
-        while (node !== null) {
-            if (node === parent) return true;
-            node = node.parentNode;
-        }
-
-        return false;
-    },
-
-    offset: function offset(el) {
-        var rect = el.getBoundingClientRect();
-        return {
-            top: rect.top + document.body.scrollTop,
-            left: rect.left + document.body.scrollLeft
-        };
-    },
-
-    getStyleAttributeAsNumber: function getStyleAttributeAsNumber(el, attr) {
-        var attrStyle = el.style[attr];
-        var attrNum = 0;
-        if (attrStyle && attrStyle.length) {
-            attrNum = parseInt(attrStyle);
-        }
-
-        return attrNum;
-    },
-
-    addClass: function addClass(el, className) {
-        if (el.classList) el.classList.add(className);else el.className += ' ' + className;
-    },
-
-    removeClass: function removeClass(el, className) {
-        if (el.classList) el.classList.remove(className);else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-    },
-
-    hasClass: function hasClass(el, className) {
-        if (el.classList) return el.classList.contains(className);else return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
-    },
-
-    toggleClass: function toggleClass(el, className) {
-        if (this.hasClass(el, className)) this.removeClass(el, className);else this.addClass(el, className);
-    },
-
-    forceRedraw: function forceRedraw(el) {
-        var originalDisplay = el.style.display;
-
-        el.style.display = 'none';
-        el.offsetHeight;
-        el.style.display = originalDisplay;
-    },
-
-    withoutTransition: function withoutTransition(el, callback) {
-        var originalTransition = el.style.transition;
-
-        //turn off transition
-        el.style.transition = null;
-
-        callback();
-
-        //force a redraw
-        this.forceRedraw(el);
-
-        //put the transition back
-        el.style.transition = originalTransition;
-    },
-
-    nodeById: function nodeById(id) {
-        return document.getElementById(id);
-    },
-
-    nodeBySelector: function nodeBySelector(el, s) {
-        return (el || document).querySelector(s);
-    },
-
-    nodesBySelector: function nodesBySelector(el, s) {
-        return (el || document).querySelectorAll(s);
-    },
-
-    text: function text(el, _text) {
-        if (typeof _text === 'string') {
-            el && (el.innerText = _text);
-            return this;
-        }
-        return el ? el.innerText || el.textContent || '' : '';
-    }
-
-};
-
-exports['default'] = dom;
-module.exports = exports['default'];
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(0);
+var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -610,7 +110,7 @@ var _es6Dom = __webpack_require__(5);
 
 var _es6Dom2 = _interopRequireDefault(_es6Dom);
 
-var _picker = __webpack_require__(3);
+var _picker = __webpack_require__(6);
 
 var _picker2 = _interopRequireDefault(_picker);
 
@@ -989,130 +489,523 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 });
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = docReady;
+
+function docReady(callback) {
+
+    function completed() {
+        document.removeEventListener("DOMContentLoaded", completed, false);
+        window.removeEventListener("load", completed, false);
+        callback();
+    }
+
+    //Events.on(document, 'DOMContentLoaded', completed)
+
+    if (document.readyState === "complete") {
+        // Handle it asynchronously to allow scripts the opportunity to delay ready
+        setTimeout(callback);
+    } else {
+
+        // Use the handy event callback
+        document.addEventListener("DOMContentLoaded", completed, false);
+
+        // A fallback to window.onload, that will always work
+        window.addEventListener("load", completed, false);
+    }
+}
+
+module.exports = exports["default"];
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var dom = {
+
+    isDescendant: function isDescendant(parent, child) {
+        var node = child.parentNode;
+
+        while (node !== null) {
+            if (node === parent) return true;
+            node = node.parentNode;
+        }
+
+        return false;
+    },
+
+    offset: function offset(el) {
+        var rect = el.getBoundingClientRect();
+        return {
+            top: rect.top + document.body.scrollTop,
+            left: rect.left + document.body.scrollLeft
+        };
+    },
+
+    getStyleAttributeAsNumber: function getStyleAttributeAsNumber(el, attr) {
+        var attrStyle = el.style[attr];
+        var attrNum = 0;
+        if (attrStyle && attrStyle.length) {
+            attrNum = parseInt(attrStyle);
+        }
+
+        return attrNum;
+    },
+
+    addClass: function addClass(el, className) {
+        if (el.classList) el.classList.add(className);else el.className += ' ' + className;
+    },
+
+    removeClass: function removeClass(el, className) {
+        if (el.classList) el.classList.remove(className);else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    },
+
+    hasClass: function hasClass(el, className) {
+        if (el.classList) return el.classList.contains(className);else return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+    },
+
+    toggleClass: function toggleClass(el, className) {
+        if (this.hasClass(el, className)) this.removeClass(el, className);else this.addClass(el, className);
+    },
+
+    forceRedraw: function forceRedraw(el) {
+        var originalDisplay = el.style.display;
+
+        el.style.display = 'none';
+        el.offsetHeight;
+        el.style.display = originalDisplay;
+    },
+
+    withoutTransition: function withoutTransition(el, callback) {
+        var originalTransition = el.style.transition;
+
+        //turn off transition
+        el.style.transition = null;
+
+        callback();
+
+        //force a redraw
+        this.forceRedraw(el);
+
+        //put the transition back
+        el.style.transition = originalTransition;
+    },
+
+    nodeById: function nodeById(id) {
+        return document.getElementById(id);
+    },
+
+    nodeBySelector: function nodeBySelector(el, s) {
+        return (el || document).querySelector(s);
+    },
+
+    nodesBySelector: function nodesBySelector(el, s) {
+        return (el || document).querySelectorAll(s);
+    },
+
+    text: function text(el, _text) {
+        if (typeof _text === 'string') {
+            el && (el.innerText = _text);
+            return this;
+        }
+        return el ? el.innerText || el.textContent || '' : '';
+    }
+
+};
+
+exports['default'] = dom;
+module.exports = exports['default'];
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactDom = __webpack_require__(2);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactTapper = __webpack_require__(7);
+
+var _reactTapper2 = _interopRequireDefault(_reactTapper);
+
+var _es6Viewpoint = __webpack_require__(11);
+
+var _es6Viewpoint2 = _interopRequireDefault(_es6Viewpoint);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
+
+var Picker = function (_Component) {
+    _inherits(Picker, _Component);
+
+    function Picker(props, context) {
+        _classCallCheck(this, Picker);
+
+        var _this = _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props, context));
+
+        _this.state = {
+            value: _this.props.value,
+            options: _this.props.options,
+            open: false,
+            optionHeight: 0,
+            _scrollStartTop: [],
+            _initValueIndexes: [],
+            _scrollTimer: undefined,
+            closeable: false
+        };
+
+        _this._handleOverlayTouchTap = _this._handleOverlayTouchTap.bind(_this);
+        _this._onPageScroll = _this._onPageScroll.bind(_this);
+        _this._onScroll = _this._onScroll.bind(_this);
+        _this._clickOnOption = _this._clickOnOption.bind(_this);
+        return _this;
+    }
+
+    _createClass(Picker, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            var _this2 = this;
+
+            var values = nextProps.value,
+                opArr = nextProps.options,
+                preValues = this.state.value,
+                preOpArr = this.state.options,
+                opHeight = this.state.optionHeight;
+            if (!Array.isArray(values)) {
+                values = [values];
+                opArr = [opArr];
+                preValues = [preValues];
+                preOpArr = [preOpArr];
+            }
+            values.forEach(function (v, idx) {
+                if (values[idx] !== preValues[idx] || opArr[idx] !== preOpArr[idx]) {
+                    var ops = opArr[idx],
+                        top = 0;
+                    for (var oi = 0; oi < ops.length; oi++) {
+                        var opv = typeof ops[oi] === 'string' || typeof ops[oi] === 'number' ? ops[oi] : ops[oi].value;
+                        if (String(opv) === String(v)) {
+                            top = oi * opHeight;
+                            break;
+                        }
+                    }
+                    var node = _this2.refs['list-' + idx];
+                    node.scrollTop = _this2.state._scrollStartTop[idx] = top;
+                }
+            });
+
+            this.setState({
+                value: nextProps.value,
+                options: nextProps.options
+            });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this3 = this;
+
+            var op = this.refs['op-0-0'],
+                opHeight = 0;
+            if (op) {
+                opHeight = this.state.optionHeight = _reactDom2.default.findDOMNode(op).clientHeight;
+            }
+            this.state._initValueIndexes.forEach(function (vi, idx) {
+                if (vi > 0) {
+                    var node = _this3.refs['list-' + idx];
+                    node.scrollTop = _this3.state._scrollStartTop[idx] = vi * opHeight;
+                }
+            });
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {}
+    }, {
+        key: 'value',
+        value: function value() {
+            return this.state.value;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this4 = this;
+
+            var values = this.state.value,
+                __options = this.state.options;
+            if (!Array.isArray(values)) {
+                values = [values];
+                __options = [__options];
+            }
+
+            var initValueIndexes = [];
+            var style = {
+                width: 100 / __options.length + '%'
+            };
+            var i = -1;
+            var lists = __options.map(function (options) {
+                if (!options) return;
+                i++;
+                var j = -1;
+                return _react2.default.createElement(
+                    'div',
+                    {
+                        key: i,
+                        ref: 'list-' + i,
+                        'data-id': i,
+                        className: 'list-wrap',
+                        style: style,
+                        onScroll: isBrowser ? _this4._onScroll : undefined
+                    },
+                    _react2.default.createElement(
+                        'ul',
+                        null,
+                        options.map(function (op) {
+                            j++;
+                            if (typeof op === 'string' || typeof op === 'number') {
+                                op = {
+                                    text: op,
+                                    value: op
+                                };
+                            } else if ((typeof op === 'undefined' ? 'undefined' : _typeof(op)) !== 'object' || !op.text) return;
+                            if (typeof op.value !== 'string' && typeof op.value !== 'number') op.value = '';
+
+                            if (String(op.value) === String(values[i])) {
+                                initValueIndexes.push(j);
+                            }
+
+                            return _react2.default.createElement(
+                                _reactTapper2.default,
+                                { key: j,
+                                    ref: 'op-' + i + '-' + j,
+                                    'data-id': i + '-' + j,
+                                    'data-value': JSON.stringify(op),
+                                    component: 'li',
+                                    onTap: _this4._clickOnOption
+                                },
+                                op.text
+                            );
+                        })
+                    )
+                );
+            });
+
+            this.state._initValueIndexes = initValueIndexes;
+
+            var popupStyle = {};
+            if (this.props.width && _es6Viewpoint2.default && _es6Viewpoint2.default.width >= 768) {
+                popupStyle.width = this.props.width;
+            }
+
+            return _react2.default.createElement(
+                'div',
+                { className: ["picker", this.props.className].join(' ') },
+                this.props.children,
+                _react2.default.createElement(
+                    'div',
+                    { className: ["container", "table", this.props.className, this.state.open ? "show" : undefined].join(' ') },
+                    _react2.default.createElement(_reactTapper2.default, { className: 'overlay', onTap: this._handleOverlayTouchTap }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'cell' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: ["popup", this.props.theme, this.state.open ? "show" : undefined].join(' '), style: popupStyle },
+                            lists,
+                            _react2.default.createElement('div', { className: 'cover upper' }),
+                            _react2.default.createElement('div', { className: 'cover lower' })
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'dismiss',
+        value: function dismiss() {
+            if (this.state.closeable) {
+                this._onDismiss();
+            }
+        }
+    }, {
+        key: 'show',
+        value: function show() {
+            this._onShow();
+        }
+    }, {
+        key: '_handleOverlayTouchTap',
+        value: function _handleOverlayTouchTap() {
+            if (this.state.closeable) {
+                this._onDismiss();
+                this.props.onClickAway && this.props.onClickAway();
+            }
+        }
+    }, {
+        key: '_onShow',
+        value: function _onShow() {
+            setTimeout(function () {
+                this.state.closeable = true;
+            }.bind(this), 250);
+            this.setState({ open: true });
+            this.props.onShow && this.props.onShow();
+        }
+    }, {
+        key: '_onDismiss',
+        value: function _onDismiss() {
+            this.setState({ open: false, loading: false });
+            this.props.onDismiss && this.props.onDismiss();
+        }
+    }, {
+        key: '_onPageScroll',
+        value: function _onPageScroll(e) {}
+    }, {
+        key: '_onScroll',
+        value: function _onScroll(e) {
+            var _this5 = this;
+
+            var el = e.target,
+                idx = parseInt(el.dataset ? el.dataset.id : el.getAttribute('data-id'), 10),
+                opHeight = this.state.optionHeight,
+                scrollStartTop = this.state._scrollStartTop;
+
+            window.clearTimeout(this.state._scrollTimer);
+            this.state._scrollTimer = window.setTimeout(function () {
+                if (typeof scrollStartTop[idx] !== 'number') scrollStartTop[idx] = 0;
+                if (scrollStartTop[idx] === el.scrollTop) return;
+
+                var scrollTop = el.scrollTop,
+                    mod = scrollTop % opHeight,
+                    percent = mod / opHeight;
+
+                var toLowerItem = function toLowerItem() {
+                    var diff = opHeight - mod;
+                    scrollTop += diff;
+                    el.scrollTop += diff;
+                };
+                var toUpperItem = function toUpperItem() {
+                    scrollTop -= mod;
+                    el.scrollTop -= mod;
+                };
+
+                if (scrollTop > scrollStartTop[idx]) {
+                    percent > 0.46 ? toLowerItem() : toUpperItem();
+                } else {
+                    percent < 0.64 ? toUpperItem() : toLowerItem();
+                }
+                scrollStartTop[idx] = scrollTop;
+
+                var opname = 'op-' + idx + '-' + scrollTop / opHeight;
+                var op = _reactDom2.default.findDOMNode(_this5.refs[opname]).getAttribute('data-value');
+                if (!op) return;
+                op = JSON.parse(op);
+
+                var value = _this5.state.value;
+                if (Array.isArray(value)) {
+                    value[idx] = op.value;
+                } else {
+                    value = op.value;
+                }
+                _this5.setState({
+                    value: value
+                });
+                _this5.props.onChange(op.value, op.text, idx);
+            }, 250);
+        }
+    }, {
+        key: '_clickOnOption',
+        value: function _clickOnOption(e) {
+            var el = e.target,
+                value = el.dataset ? el.dataset.id : el.getAttribute('data-id');
+            if (!value) return;
+
+            var arr = value.split('-');
+            if (arr.length < 2) return;
+
+            var _list = this.refs['list-' + arr[0]];
+            if (!_list) return;
+            var list = _list;
+            list.scrollTop = this.state.optionHeight * parseInt(arr[1], 10);
+        }
+    }]);
+
+    return Picker;
+}(_react.Component);
+
+Picker.propTypes = {
+    value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number, _propTypes2.default.array]).isRequired,
+    options: _propTypes2.default.array.isRequired,
+    onChange: _propTypes2.default.func,
+    onShow: _propTypes2.default.func,
+    onDismiss: _propTypes2.default.func,
+    onClickAway: _propTypes2.default.func,
+    width: _propTypes2.default.string,
+    theme: _propTypes2.default.string
+};
+Picker.defaultProps = {
+    onChange: function onChange(value, text, idx) {},
+    theme: 'light'
+};
+exports.default = Picker;
+
+/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ViewPoint = function () {
-    function ViewPoint() {
-        _classCallCheck(this, ViewPoint);
-
-        this.width = 0;
-        this.height = 0;
-        this.colorDepth = 0;
-        this.pixelDepth = 0;
-
-        if (typeof window === "undefined") return;
-
-        if (window && window.screen) {
-            this.width = window.screen.width;
-            this.height = window.screen.height;
-            this.colorDepth = window.screen.colorDepth;
-            this.pixelDepth = window.screen.pixelDepth;
-        }
-
-        this.detect();
-    }
-
-    _createClass(ViewPoint, [{
-        key: 'detect',
-        value: function detect() {
-            if (window && typeof window.innerWidth !== 'undefined') {
-                this.width = window.innerWidth;
-                this.height = window.innerHeight;
-            }
-
-            // IE6
-            else if (document && typeof document.documentElement !== 'undefined' && typeof document.documentElement.clientWidth !== 'undefined' && document.documentElement.clientWidth !== 0) {
-                    this.width = document.documentElement.clientWidth;
-                    this.height = document.documentElement.clientHeight;
-                }
-
-                //Older IE
-                else if (document) {
-                        this.width = document.getElementsByTagName('body')[0].clientWidth;
-                        this.height = document.getElementsByTagName('body')[0].clientHeight;
-                    }
-        }
-    }]);
-
-    return ViewPoint;
-}();
-
-var viewpoint = new ViewPoint();
-
-exports.default = viewpoint;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var TAGNAMES = {
-    'select': 'input',
-    'change': 'input',
-    'submit': 'form',
-    'reset': 'form',
-    'error': 'img',
-    'load': 'img',
-    'abort': 'img'
-};
-
-var eventSupport = function eventSupport(eventName) {
-    //to support compilation in server-side
-    if (typeof window === "undefined" || typeof document === "undefined") return false;
-    var el = document.createElement(TAGNAMES[eventName] || 'div');
-    eventName = 'on' + eventName;
-    var isSupported = eventName in el;
-    if (!isSupported) {
-        el.setAttribute(eventName, 'return;');
-        isSupported = typeof el[eventName] == 'function';
-    }
-    el = null;
-    return isSupported;
-};
-
-exports.default = eventSupport;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(0);
+var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _touchSupport = __webpack_require__(11);
+var _touchSupport = __webpack_require__(8);
 
 var _touchSupport2 = _interopRequireDefault(_touchSupport);
 
@@ -1146,18 +1039,23 @@ var Tappable = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Tappable.__proto__ || Object.getPrototypeOf(Tappable)).call(this, props, context));
 
-        _this.state = {
-            x: null,
-            y: null,
-            swiping: false,
-            start: 0
-        };
+        _this.state = _this.getInitialState();
 
         _this.touchable = (0, _touchSupport2.default)();
         return _this;
     }
 
     _createClass(Tappable, [{
+        key: 'getInitialState',
+        value: function getInitialState() {
+            return {
+                x: null,
+                y: null,
+                swiping: false,
+                start: 0
+            };
+        }
+    }, {
         key: 'render',
         value: function render() {
             var props = this.props,
@@ -1359,14 +1257,77 @@ Tappable.propTypes = {
     flickThreshold: _propTypes2.default.number,
     delta: _propTypes2.default.number
 };
-
 Tappable.defaultProps = {
     component: 'div',
     flickThreshold: 0.6,
     delta: 10
 };
-
 exports.default = Tappable;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _eventSupport = __webpack_require__(9);
+
+var _eventSupport2 = _interopRequireDefault(_eventSupport);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __TouchSupported = void 0;
+var touchSupport = function touchSupport() {
+    if (typeof __TouchSupported === 'boolean') return __TouchSupported;
+
+    __TouchSupported = (0, _eventSupport2.default)("touchstart"); //("ontouchstart" in document.documentElement)
+    return __TouchSupported;
+};
+
+exports.default = touchSupport;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var TAGNAMES = {
+    'select': 'input',
+    'change': 'input',
+    'submit': 'form',
+    'reset': 'form',
+    'error': 'img',
+    'load': 'img',
+    'abort': 'img'
+};
+
+var eventSupport = function eventSupport(eventName) {
+    //to support compilation in server-side
+    if (typeof window === "undefined" || typeof document === "undefined") return false;
+    var el = document.createElement(TAGNAMES[eventName] || 'div');
+    eventName = 'on' + eventName;
+    var isSupported = eventName in el;
+    if (!isSupported) {
+        el.setAttribute(eventName, 'return;');
+        isSupported = typeof el[eventName] == 'function';
+    }
+    el = null;
+    return isSupported;
+};
+
+exports.default = eventSupport;
 
 
 /***/ }),
@@ -1399,25 +1360,63 @@ exports.default = touchStyles;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _eventSupport = __webpack_require__(8);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _eventSupport2 = _interopRequireDefault(_eventSupport);
+var ViewPoint = function () {
+    function ViewPoint() {
+        _classCallCheck(this, ViewPoint);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+        this.width = 0;
+        this.height = 0;
+        this.colorDepth = 0;
+        this.pixelDepth = 0;
 
-var __TouchSupported = void 0;
-var touchSupport = function touchSupport() {
-    if (typeof __TouchSupported === 'boolean') return __TouchSupported;
+        if (typeof window === "undefined") return;
 
-    __TouchSupported = (0, _eventSupport2.default)("touchstart"); //("ontouchstart" in document.documentElement)
-    return __TouchSupported;
-};
+        if (window && window.screen) {
+            this.width = window.screen.width;
+            this.height = window.screen.height;
+            this.colorDepth = window.screen.colorDepth;
+            this.pixelDepth = window.screen.pixelDepth;
+        }
 
-exports.default = touchSupport;
+        this.detect();
+    }
+
+    _createClass(ViewPoint, [{
+        key: 'detect',
+        value: function detect() {
+            if (window && typeof window.innerWidth !== 'undefined') {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+            }
+
+            // IE6
+            else if (document && typeof document.documentElement !== 'undefined' && typeof document.documentElement.clientWidth !== 'undefined' && document.documentElement.clientWidth !== 0) {
+                    this.width = document.documentElement.clientWidth;
+                    this.height = document.documentElement.clientHeight;
+                }
+
+                //Older IE
+                else if (document) {
+                        this.width = document.getElementsByTagName('body')[0].clientWidth;
+                        this.height = document.getElementsByTagName('body')[0].clientHeight;
+                    }
+        }
+    }]);
+
+    return ViewPoint;
+}();
+
+var viewpoint = new ViewPoint();
+
+exports.default = viewpoint;
 
 
 /***/ })
