@@ -5,6 +5,6 @@
 
 node_modules/*
 
-snapshots/*
+snapshots/*.psd
 
 *.log
