@@ -29,13 +29,11 @@ or
 	
 ## Snapshots
 
-![PC WEB](http://pub.lvrian.com/react-picker/snapshots/pc-picker-light.jpg "PC Browser View")
+![PC WEB](https://raw.githubusercontent.com/nickeljew/react-picker/master/snapshots/pc-picker-light.jpg "PC Browser View")
 
-![Mobile WEB](http://pub.lvrian.com/react-picker/snapshots/mobile-picker.jpg "Mobile Browser View")
+![Mobile WEB](https://raw.githubusercontent.com/nickeljew/react-picker/master/snapshots/mobile-picker.jpg "Mobile Browser View")
 
 ## Demo
-
-[Online Demo](http://pub.lvrian.com/react-picker/examples/demo.html)
 
 Demo file in repository: ./examples/demo.html
 
