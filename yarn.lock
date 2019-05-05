@@ -3373,10 +3373,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-tapper@^0.1.15:
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/react-tapper/-/react-tapper-0.1.16.tgz#d5fb60e250aa9dc43c07d1120e6b399cbdc65bd3"
-  integrity sha512-5+UQaBeTiywbhIUZgPtxYT2CEB4QRbi0wjuSiXeeP/Z/SMa9Luz86hGGaWstqLFcUJfITk4Fh39q25weSq+2SA==
+react-tapper@^0.1.17:
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/react-tapper/-/react-tapper-0.1.17.tgz#18192120cb9c9e012f6c64f2ad02843eea4421e6"
+  integrity sha512-3lkQxdv+aZ8rpLD2b+CU04gLKeUPOgO+YykXeJDOI3wWaeRHVyPLy8dlMPDUu7GrY3YLiw/BDW5aluj2Crpytg==
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
