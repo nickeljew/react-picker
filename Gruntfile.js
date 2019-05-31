@@ -1,50 +1,49 @@
 "use strict";
 
+const sass = require('node-sass')
+
+
 var webpack_cfg = require('./webpack.config')
 //var extend = require('util')._extend
 
 module.exports = function(grunt) {
+    require('load-grunt-tasks')(grunt)
+
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json')
-        , tag: {
+        pkg: grunt.file.readJSON('package.json'),
+        tag: {
             banner: '/*!\n'
             + ' * <%= pkg.name %>\n'
             + ' * @version <%= pkg.version %>\n'
-            + ' */\n'
-        }
-        , sass: {
+            + ' */\n',
+        },
+        sass: {
+            options: {
+                implementation: sass,
+                style: 'expanded',
+                compass: true,
+                //sourcemap: 'none',
+                //for grunt-sass
+                sourceMap: false,
+            },
             dev: {
-                options: {
-                    style: 'expanded'
-                    , compass: true
-                    //, sourcemap: 'none'
-                    //for grunt-sass
-                    , sourceMap: false
-                }
-                , files: [
+                files: [
                     {
-                        expand: true
-                        , cwd: './scss'
-                        , src: [ 'demo.scss' ]
-                        , dest: './examples'
-                        , ext: '.css'
-                    }
-                ]
-            }
-            , dist: {
-                options: {
-                    style: 'expanded' //'compressed'
-                    , compass: true
-                    //, sourcemap: 'none'
-                    //for grunt-sass
-                    , sourceMap: false
-                }
-                , files: [
-                    { './css/picker.css': './scss/pack-picker.scss' }
-                ]
-            }
-        }
-        , babel: {
+                        expand: true,
+                        cwd: './scss',
+                        src: [ 'demo.scss' ],
+                        dest: './examples',
+                        ext: '.css',
+                    },
+                ],
+            },
+            dist: {
+                files: [
+                    { './css/picker.css': './scss/pack-picker.scss' },
+                ],
+            },
+        },
+        babel: {
             options: {
                 //sourceMap: true
             }
@@ -78,11 +77,11 @@ module.exports = function(grunt) {
         }
     })
 
-    grunt.loadNpmTasks('grunt-contrib-watch')
-    grunt.loadNpmTasks('grunt-sass')
-    grunt.loadNpmTasks('grunt-contrib-clean')
-    grunt.loadNpmTasks('grunt-babel')
-    grunt.loadNpmTasks('grunt-webpack')
+    // grunt.loadNpmTasks('grunt-contrib-watch')
+    // grunt.loadNpmTasks('grunt-sass')
+    // grunt.loadNpmTasks('grunt-contrib-clean')
+    // grunt.loadNpmTasks('grunt-babel')
+    // grunt.loadNpmTasks('grunt-webpack')
 
 
     grunt.registerTask('default', ['sass:dev', 'webpack:demo', 'babel'])

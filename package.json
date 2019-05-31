@@ -13,7 +13,7 @@
     "choices"
   ],
   "author": "Nickel Jianhui Zhu <nickeljew@hotmail.com>",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "license": "MIT",
   "private": false,
   "main": "lib/picker.js",
@@ -55,8 +55,10 @@
     "grunt-babel": "^7.0.0",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-sass": "^2.0.0",
+    "grunt-sass": "^3.0.2",
     "grunt-webpack": "^3.0.2",
+    "load-grunt-tasks": "^5.0.0",
+    "node-sass": "^4.12.0",
     "webpack": "^3.6.0"
   },
   "repository": {
