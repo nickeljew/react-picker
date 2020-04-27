@@ -4,6 +4,9 @@ Picker Component offers a popup options list with responsive layouts.
 
 
 ## Changelogs
+#### v1.2.16
+- upgrade for security alert
+
 #### v1.2.13
 - removed webpack-dev-server dependency
 
