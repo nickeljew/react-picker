@@ -41,7 +41,7 @@ module.exports = {
             },
         ],
     },
-    //, watch: true
-    target: 'web',
     plugins: [],
+    target: 'web',
+    mode: 'development',
 }
